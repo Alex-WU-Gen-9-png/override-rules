@@ -34,6 +34,14 @@ export const ruleProviders: Record<string, RuleProvider> = {
         url: "https://ruleset.skk.moe/Clash/non_ip/cdn.txt",
         path: "./ruleset/CDNResources.txt",
     },
+    ZJU: {
+        type: "http",
+        behavior: "classical",
+        format: "text",
+        interval: 86400,
+        url: `${CDN_URL}/gh/powerfullz/override-rules@master/ruleset/ZJU.list`,
+        path: "./ruleset/ZJU.list",
+    },
     TikTok: {
         type: "http",
         behavior: "classical",

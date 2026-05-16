@@ -3,6 +3,7 @@ import { PROXY_GROUPS } from "./constants";
 const baseRules = [
     `DST-PORT,22,${PROXY_GROUPS.SSH}`,
     `GEOIP,private,${PROXY_GROUPS.DIRECT},no-resolve`,
+    `RULE-SET,ZJU,${PROXY_GROUPS.ZJU}`,
     `RULE-SET,ADBlock,${PROXY_GROUPS.AD_BLOCK}`,
     `RULE-SET,AdditionalFilter,${PROXY_GROUPS.AD_BLOCK}`,
     `RULE-SET,SogouInput,${PROXY_GROUPS.SOGOU_INPUT}`,
@@ -27,7 +28,7 @@ const baseRules = [
     `GEOSITE,twitter,${PROXY_GROUPS.TWITTER}`,
     `RULE-SET,EHentai,${PROXY_GROUPS.EHENTAI}`,
     `RULE-SET,TikTok,${PROXY_GROUPS.TIKTOK}`,
-    `RULE-SET,SteamFix,${PROXY_GROUPS.DIRECT}`,
+    `RULE-SET,SteamFix,${PROXY_GROUPS.STATIC_RESOURCES}`,
     `GEOSITE,google-play@cn,${PROXY_GROUPS.DIRECT}`,
     `GEOSITE,microsoft@cn,${PROXY_GROUPS.DIRECT}`,
     `GEOSITE,apple,${PROXY_GROUPS.APPLE}`,

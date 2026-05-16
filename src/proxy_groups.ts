@@ -162,6 +162,12 @@ export function buildProxyGroups({
             proxies: defaultProxies,
         },
         {
+            name: PROXY_GROUPS.ZJU,
+            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Bookpedia.png`,
+            type: "select",
+            proxies: defaultProxies,
+        },
+        {
             name: PROXY_GROUPS.CRYPTO,
             icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Cryptocurrency_1.png`,
             type: "select",
