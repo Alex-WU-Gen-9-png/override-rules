@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.3.9](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.8...src-v2.3.9) (2026-05-17)
+
+
+### Bug Fixes
+
+- 更改了国家匹配优先级 ([4834e13](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/4834e13ea76f45a6367ee03a16cc35fcf7c1efa5))
+
+
+### Features
+
+- 修改了国家策略组的默认行为 增加了 countryselect 字段 并且更改了测速地址为CF ([51e3c67](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/51e3c6740dc93975bd30c58aed93831f2db88d4c))
 ## [2.3.8](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.7...src-v2.3.8) (2026-05-17)
 
 
