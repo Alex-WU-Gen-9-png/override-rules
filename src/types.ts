@@ -111,6 +111,7 @@ export interface DnsConfig {
     nameserver: string[];
     fallback: string[];
     "proxy-server-nameserver": string[];
+    "nameserver-policy"?: Record<string, string | string[]>;
     "fake-ip-filter"?: string[];
 }
 

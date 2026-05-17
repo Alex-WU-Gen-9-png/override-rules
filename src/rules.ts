@@ -1,9 +1,9 @@
 import { PROXY_GROUPS } from "./constants";
 
 const baseRules = [
+    `RULE-SET,ZJU,${PROXY_GROUPS.ZJU}`,
     `DST-PORT,22,${PROXY_GROUPS.SSH}`,
     `GEOIP,private,${PROXY_GROUPS.DIRECT},no-resolve`,
-    `RULE-SET,ZJU,${PROXY_GROUPS.ZJU}`,
     `RULE-SET,ADBlock,${PROXY_GROUPS.AD_BLOCK}`,
     `RULE-SET,AdditionalFilter,${PROXY_GROUPS.AD_BLOCK}`,
     `RULE-SET,SogouInput,${PROXY_GROUPS.SOGOU_INPUT}`,
