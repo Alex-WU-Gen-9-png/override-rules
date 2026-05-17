@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.7](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.6...src-v2.3.7) (2026-05-17)
+
+
+### Bug Fixes
+
+- Make ZJU group direct only ([0471455](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/047145580d003afb9ad2b7f76ea07f01b03882a1))
 ## [2.3.6](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.5...src-v2.3.6) (2026-05-17)
 
 
