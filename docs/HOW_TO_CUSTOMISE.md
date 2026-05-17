@@ -22,6 +22,7 @@ npm install
 // src/args.ts
 const FEATURE_FLAG_DEFAULTS = {
     loadBalance: false,
+    countrySelect: true,
     landing: false,
     ipv6Enabled: true, // 例如：修改此处，默认开启 IPv6
     fullConfig: false,
@@ -29,6 +30,8 @@ const FEATURE_FLAG_DEFAULTS = {
     fakeIPEnabled: true,
     quicEnabled: false,
     regexFilter: false,
+    tunEnabled: false,
+    countryThreshold: 0,
 } as const;
 ```
 
@@ -159,5 +162,3 @@ https://cdn.jsdelivr.net/gh/你的用户名/override-rules@dist/convert.min.js
 ```text
 https://raw.githubusercontent.com/你的用户名/override-rules/refs/heads/dist/convert.min.js
 ```
-
-

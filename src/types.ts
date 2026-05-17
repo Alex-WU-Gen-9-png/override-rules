@@ -1,5 +1,6 @@
 export interface ScriptArgs {
     loadbalance?: string;
+    countryselect?: string;
     landing?: string;
     ipv6?: string;
     full?: string;
@@ -13,6 +14,7 @@ export interface ScriptArgs {
 
 export interface FeatureFlags {
     loadBalance: boolean;
+    countrySelect: boolean;
     landing: boolean;
     ipv6Enabled: boolean;
     fullConfig: boolean;
@@ -205,6 +207,7 @@ export interface BuildCountryProxyGroupsInput {
     countries: string[];
     landing: boolean;
     loadBalance: boolean;
+    countrySelect: boolean;
     regexFilter: boolean;
     countryInfo: CountryInfoItem[];
 }

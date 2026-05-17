@@ -36,6 +36,7 @@ const OUTPUT_DIR = path.join(BASE_DIR, "yamls");
 
 const FLAGS = [
     "loadbalance",
+    "countryselect",
     "landing",
     "ipv6",
     "full",
@@ -57,6 +58,7 @@ interface VmSandbox extends Record<string, unknown> {
 
 const FLAG_SHORT_NAMES: Record<FlagName, string> = {
     loadbalance: "lb",
+    countryselect: "cs",
     landing: "landing",
     ipv6: "ipv6",
     full: "full",

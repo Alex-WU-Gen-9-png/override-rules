@@ -54,7 +54,8 @@
 
 目前支持的参数：
 
-*   `loadbalance`：启用负载均衡（url-test/load-balance，默认 false）
+*   `loadbalance`：启用负载均衡（默认 false；开启后国家/地区节点使用 `load-balance`）
+*   `countryselect`：国家/地区节点使用手动选择（默认 true；仅当 `loadbalance=false&countryselect=false` 时改用 `url-test`）
 *   `landing`：启用落地节点功能（如机场家宽/星链/落地分组，默认 false）[^landing]
 *   `ipv6`：启用 IPv6 支持（默认 false）
 *   `full`：生成完整配置（适合纯内核启动，默认 false）

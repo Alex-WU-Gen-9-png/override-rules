@@ -14,12 +14,15 @@ import type {
 } from "./types";
 import { isNotNull } from "./utils";
 
+const PROXY_TEST_URL = "http://cp.cloudflare.com/generate_204";
+
 /**
  * 为每个地区生成对应的代理组配置。
  * @param input - 构建地区代理组所需的输入参数
  * @param input.countries - 需要生成代理组的地区名称列表（不含后缀）
  * @param input.landing - 是否启用落地节点模式；启用时将排除落地节点
- * @param input.loadBalance - 是否使用负载均衡模式（`load-balance`），否则使用自动测速（`url-test`）
+ * @param input.loadBalance - 是否使用负载均衡模式（`load-balance`），优先级高于手动选择
+ * @param input.countrySelect - 是否使用手动选择模式（`select`），未启用负载均衡时生效
  * @param input.regexFilter - 是否使用正则过滤模式（`include-all` + `filter`）
  * @param input.countryInfo - 地区节点信息数组，用于非正则模式下直接枚举节点名称
  * @returns 生成的地区代理组配置数组
@@ -28,6 +31,7 @@ export function buildCountryProxyGroups({
     countries,
     landing,
     loadBalance,
+    countrySelect,
     regexFilter,
     countryInfo,
 }: BuildCountryProxyGroupsInput): ProxyGroup[] {
@@ -44,18 +48,22 @@ export function buildCountryProxyGroups({
         const baseFields = {
             name: `${country}${NODE_SUFFIX}`,
             icon: meta.icon,
-            url: "https://cp.cloudflare.com/generate_204",
-            interval: 60,
-            tolerance: 20,
         };
 
         let groupConfig: ProxyGroup;
 
         if (loadBalance) {
+            const testFields = {
+                url: PROXY_TEST_URL,
+                interval: 60,
+                tolerance: 20,
+            };
+
             if (!regexFilter) {
                 const nodeNames = nodesByCountry?.[country] ?? [];
                 groupConfig = {
                     ...baseFields,
+                    ...testFields,
                     type: "load-balance",
                     strategy: "sticky-sessions",
                     proxies: nodeNames,
@@ -63,6 +71,7 @@ export function buildCountryProxyGroups({
             } else {
                 groupConfig = {
                     ...baseFields,
+                    ...testFields,
                     type: "load-balance",
                     strategy: "sticky-sessions",
                     "include-all": true,
@@ -70,17 +79,42 @@ export function buildCountryProxyGroups({
                     ...(landing ? { "exclude-filter": LANDING_NODE_MATCHER.pattern } : {}),
                 };
             }
-        } else {
+        } else if (countrySelect) {
             if (!regexFilter) {
                 const nodeNames = nodesByCountry?.[country] ?? [];
                 groupConfig = {
                     ...baseFields,
+                    type: "select",
+                    proxies: nodeNames,
+                };
+            } else {
+                groupConfig = {
+                    ...baseFields,
+                    type: "select",
+                    "include-all": true,
+                    filter: meta.pattern,
+                    ...(landing ? { "exclude-filter": LANDING_NODE_MATCHER.pattern } : {}),
+                };
+            }
+        } else {
+            const testFields = {
+                url: PROXY_TEST_URL,
+                interval: 60,
+                tolerance: 20,
+            };
+
+            if (!regexFilter) {
+                const nodeNames = nodesByCountry?.[country] ?? [];
+                groupConfig = {
+                    ...baseFields,
+                    ...testFields,
                     type: "url-test",
                     proxies: nodeNames,
                 };
             } else {
                 groupConfig = {
                     ...baseFields,
+                    ...testFields,
                     type: "url-test",
                     "include-all": true,
                     filter: meta.pattern,
@@ -299,7 +333,7 @@ export function buildProxyGroups({
             name: PROXY_GROUPS.AUTO,
             icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Auto.png`,
             type: "url-test",
-            url: "https://cp.cloudflare.com/generate_204",
+            url: PROXY_TEST_URL,
             proxies: defaultFallback,
             interval: 60,
             tolerance: 20,
@@ -308,7 +342,7 @@ export function buildProxyGroups({
             name: PROXY_GROUPS.FALLBACK,
             icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Available_1.png`,
             type: "fallback",
-            url: "https://cp.cloudflare.com/generate_204",
+            url: PROXY_TEST_URL,
             proxies: defaultFallback,
             interval: 60,
             tolerance: 20,
@@ -330,7 +364,7 @@ export function buildProxyGroups({
                   name: PROXY_GROUPS.LOW_COST,
                   icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Lab.png`,
                   type: "url-test",
-                  url: "https://cp.cloudflare.com/generate_204",
+                  url: PROXY_TEST_URL,
                   interval: 60,
                   tolerance: 20,
                   ...(!regexFilter
