@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.8](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.7...src-v2.3.8) (2026-05-17)
+
+
+### Bug Fixes
+
+- Load ZJU rules from fork ([90046c8](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/90046c8ed18644ed301e24582ca8b420c9b63172))
 ## [2.3.7](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.6...src-v2.3.7) (2026-05-17)
 
 
