@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.6](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.5...src-v2.3.6) (2026-05-17)
+
+
+### Bug Fixes
+
+- Update DNS and prioritize ZJU rules ([7c2600c](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/7c2600c12390a5be7942d68e2b38ddba7e3db311))
+- Update changelog links for fork ([858bd61](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/858bd619474be47c89e1cffa2e5b1241c37dd9c3))
 ## [2.3.5](https://github.com/Alex-WU-Gen-9-png/override-rules/tree/src-v2.3.5) (2026-05-17)
 
 
