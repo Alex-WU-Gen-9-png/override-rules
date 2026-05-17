@@ -1,4 +1,4 @@
-import { CDN_URL } from "./constants";
+import { CDN_URL, SELF_CDN_URL } from "./constants";
 import type { RuleProvider } from "./types";
 
 export const ruleProviders: Record<string, RuleProvider> = {
@@ -39,7 +39,7 @@ export const ruleProviders: Record<string, RuleProvider> = {
         behavior: "classical",
         format: "text",
         interval: 86400,
-        url: `${CDN_URL}/gh/powerfullz/override-rules@master/ruleset/ZJU.list`,
+        url: `${SELF_CDN_URL}/ruleset/ZJU.list`,
         path: "./ruleset/ZJU.list",
     },
     TikTok: {

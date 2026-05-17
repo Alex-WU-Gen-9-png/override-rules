@@ -3,6 +3,7 @@ import { createCaseInsensitiveNodeMatcher } from "./utils";
 
 export const NODE_SUFFIX = "节点";
 export const CDN_URL = "https://cdn.jsdelivr.net";
+export const SELF_CDN_URL = `${CDN_URL}/gh/Alex-WU-Gen-9-png/override-rules@main`;
 
 export const PROXY_GROUPS = {
     SELECT: "选择代理",
