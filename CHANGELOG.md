@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.11](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.10...src-v2.3.11) (2026-05-25)
+
+
+### Bug Fixes
+
+- Route upstream dns through rules ([7da352e](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/7da352e7a755a9e810088d7fed3ecac753744a7b))
 ## [2.3.10](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.9...src-v2.3.10) (2026-05-25)
 
 
