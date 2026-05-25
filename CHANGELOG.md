@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.12](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.11...src-v2.3.12) (2026-05-25)
+
+
+### Bug Fixes
+
+- Avoid cn bootstrap dns leakage ([43cdc5c](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/43cdc5c9909112a431e19789b58fcb632b452fae))
 ## [2.3.11](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.10...src-v2.3.11) (2026-05-25)
 
 
