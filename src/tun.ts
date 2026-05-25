@@ -17,6 +17,6 @@ export function buildTunConfig(tunEnabled: boolean): TunConfig {
         mtu: 1500,
         "auto-route": true,
         "auto-detect-interface": true,
-        "strict-route": false,
+        "strict-route": true,
     };
 }
