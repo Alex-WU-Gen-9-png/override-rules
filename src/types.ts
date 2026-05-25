@@ -7,6 +7,7 @@ export interface ScriptArgs {
     keepalive?: string;
     fakeip?: string;
     quic?: string;
+    webrtc?: string;
     regex?: string;
     threshold?: string;
     tun?: string;
@@ -21,6 +22,7 @@ export interface FeatureFlags {
     keepAliveEnabled: boolean;
     fakeIPEnabled: boolean;
     quicEnabled: boolean;
+    webRTCEnabled: boolean;
     regexFilter: boolean;
     countryThreshold: number;
     tunEnabled: boolean;
@@ -80,7 +82,8 @@ export type ProxyGroup =
     | FallbackProxyGroup;
 
 export interface SnifferProtocolConfig {
-    ports: number[];
+    ports: Array<number | string>;
+    "override-destination"?: boolean;
 }
 
 export interface SnifferConfig {
@@ -102,6 +105,9 @@ export interface TunConfig {
     "route-exclude-address": string[];
     "dns-hijack": string[];
     mtu: number;
+    "auto-route"?: boolean;
+    "auto-detect-interface"?: boolean;
+    "strict-route"?: boolean;
 }
 
 export interface DnsConfig {
@@ -115,6 +121,8 @@ export interface DnsConfig {
     "proxy-server-nameserver": string[];
     "nameserver-policy"?: Record<string, string | string[]>;
     "fake-ip-filter"?: string[];
+    "fake-ip-range"?: string;
+    "fake-ip-range6"?: string;
 }
 
 export type RuleProviderType = "http" | "file";

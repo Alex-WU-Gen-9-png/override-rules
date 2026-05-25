@@ -8,11 +8,12 @@ const FAKE_IP_FILTER = [
     "geosite:private",
     "geosite:connectivity-check",
     "geosite:cn",
-    "*.zju.edu.cn",
+    "+.zju.edu.cn",
     "Mijia Cloud",
-    "dig.io.mi.com",
+    "dlg.io.mi.com",
     "localhost.ptlogin2.qq.com",
-    "*.icloud.com",
+    "+.icloud.com",
+    "+.push.apple.com",
 ];
 
 /**
@@ -24,7 +25,8 @@ export const snifferConfig: SnifferConfig = {
             ports: [443, 8443],
         },
         HTTP: {
-            ports: [80, 8080, 8880],
+            ports: [80, "8080-8880"],
+            "override-destination": true,
         },
         QUIC: {
             ports: [443, 8443],
@@ -41,6 +43,7 @@ export const snifferConfig: SnifferConfig = {
  */
 interface BuildDnsConfigInput {
     mode: "redir-host" | "fake-ip";
+    ipv6Enabled: boolean;
     fakeIpFilter?: string[];
 }
 
@@ -51,27 +54,25 @@ interface BuildDnsConfigInput {
  * @param {string[]=} params.fakeIpFilter - fake-ip 过滤域名列表（可选）
  * @returns {DnsConfig} DNS 配置对象
  */
-function buildDnsConfig({ mode, fakeIpFilter }: BuildDnsConfigInput): DnsConfig {
+function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput): DnsConfig {
     const config: DnsConfig = {
         enable: true,
-        ipv6: true,
+        ipv6: ipv6Enabled,
         "prefer-h3": true,
         "enhanced-mode": mode,
-        "proxy-server-nameserver": ["system", "223.5.5.5", "119.29.29.29"],
-        "default-nameserver": ["system", "223.5.5.5", "119.29.29.29"],
-        nameserver: ["1.1.1.1", "8.8.8.8"],
-        fallback: [
-            "https://dns.cloudflare.com/dns-query",
-            "https://dns.google/dns-query",
-            "tls://1.1.1.1:853",
-            "tls://8.8.8.8:853",
-        ],
+        "proxy-server-nameserver": ["tcp://223.5.5.5:53", "tcp://119.29.29.29:53"],
+        "default-nameserver": ["tcp://223.5.5.5:53", "tcp://119.29.29.29:53"],
+        nameserver: ["tcp://1.1.1.1:53", "tcp://8.8.8.8:53"],
+        fallback: ["tcp://1.0.0.1:53", "tcp://8.8.4.4:53", "tls://1.1.1.1:853"],
         "nameserver-policy": {
             "*.zju.edu.cn": "system",
+            "+.zju.edu.cn": "10.10.0.21",
         },
     };
 
     if (fakeIpFilter) {
+        config["fake-ip-range"] = "198.18.0.1/16";
+        config["fake-ip-range6"] = "fd88:413:626:821::/64";
         config["fake-ip-filter"] = fakeIpFilter;
     }
 
@@ -92,9 +93,13 @@ export interface BuildDnsInput {
  * @param {boolean} params.fakeIPEnabled - 是否启用 fake-ip 模式
  * @returns {DnsConfig} DNS 配置对象
  */
-export function buildDns({ fakeIPEnabled }: BuildDnsInput): DnsConfig {
+export function buildDns({ fakeIPEnabled, ipv6Enabled }: BuildDnsInput): DnsConfig {
     if (fakeIPEnabled) {
-        return buildDnsConfig({ mode: "fake-ip", fakeIpFilter: FAKE_IP_FILTER });
+        return buildDnsConfig({
+            mode: "fake-ip",
+            ipv6Enabled,
+            fakeIpFilter: FAKE_IP_FILTER,
+        });
     }
-    return buildDnsConfig({ mode: "redir-host" });
+    return buildDnsConfig({ mode: "redir-host", ipv6Enabled });
 }

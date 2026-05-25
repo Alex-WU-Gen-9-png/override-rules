@@ -29,6 +29,7 @@ const FEATURE_FLAG_DEFAULTS = {
     keepAliveEnabled: false,
     fakeIPEnabled: true,
     quicEnabled: false,
+    webRTCEnabled: false,
     regexFilter: false,
     tunEnabled: false,
     countryThreshold: 0,

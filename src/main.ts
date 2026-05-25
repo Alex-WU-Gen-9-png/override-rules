@@ -12,6 +12,7 @@ https://github.com/powerfullz/override-rules
 - keepalive: 启用 tcp-keep-alive（默认 false）
 - fakeip: DNS 使用 FakeIP 模式（默认 true；传 false 时为 RedirHost）
 - quic: 允许 QUIC 流量（UDP 443，默认 false）
+- webrtc: 允许 WebRTC/STUN 按普通规则分流（默认 false；默认强制 STUN UDP 走代理）
 - threshold: 地区节点数量小于该值时不显示分组 (默认 0)
 - regex: 使用正则过滤模式（include-all + filter）写入各地区代理组，而非直接枚举节点名称（默认 false）
 
@@ -63,6 +64,7 @@ const {
     keepAliveEnabled,
     fakeIPEnabled,
     quicEnabled,
+    webRTCEnabled,
     regexFilter,
     tunEnabled,
     countryThreshold,
@@ -124,7 +126,7 @@ function main(config: ClashConfig): ClashConfig {
         proxies: globalProxies,
     });
 
-    const finalRules = buildRules({ quicEnabled });
+    const finalRules = buildRules({ quicEnabled, webRTCEnabled });
 
     return {
         proxies: config.proxies,

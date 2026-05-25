@@ -43,6 +43,7 @@ const FLAGS = [
     "keepalive",
     "fakeip",
     "quic",
+    "webrtc",
     "tun",
 ] as const;
 
@@ -65,6 +66,7 @@ const FLAG_SHORT_NAMES: Record<FlagName, string> = {
     keepalive: "keepalive",
     fakeip: "fakeip",
     quic: "quic",
+    webrtc: "webrtc",
     tun: "tun",
 };
 

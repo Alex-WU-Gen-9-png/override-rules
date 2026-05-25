@@ -1,5 +1,16 @@
 import { PROXY_GROUPS } from "./constants";
 
+const WEBRTC_STUN_UDP_PORTS = [
+    3478, 3479, 5349, 5350, 19302, 19303, 19304, 19305, 19306, 19307, 19308, 19309,
+];
+
+const WEBRTC_STUN_PROXY_RULES = [
+    `AND,((DOMAIN-KEYWORD,stun),(NETWORK,UDP)),${PROXY_GROUPS.SELECT}`,
+    ...WEBRTC_STUN_UDP_PORTS.map(
+        (port) => `AND,((DST-PORT,${port}),(NETWORK,UDP)),${PROXY_GROUPS.SELECT}`
+    ),
+];
+
 const baseRules = [
     `RULE-SET,ZJU,${PROXY_GROUPS.ZJU}`,
     `DST-PORT,22,${PROXY_GROUPS.SSH}`,
@@ -35,6 +46,7 @@ const baseRules = [
     `GEOSITE,microsoft,${PROXY_GROUPS.MICROSOFT}`,
     `GEOSITE,google,${PROXY_GROUPS.GOOGLE}`,
     `RULE-SET,GoogleFCM,${PROXY_GROUPS.DIRECT}`,
+    `GEOSITE,cn,${PROXY_GROUPS.DIRECT}`,
     `GEOSITE,gfw,${PROXY_GROUPS.SELECT}`,
     `GEOIP,cn,${PROXY_GROUPS.DIRECT}`,
     `MATCH,${PROXY_GROUPS.SELECT}`,
@@ -45,12 +57,22 @@ const baseRules = [
  *
  * @param {Object} params - 构建参数
  * @param {boolean} params.quicEnabled - 是否启用 QUIC（如未启用会插入 UDP:443 拦截规则）
+ * @param {boolean} params.webRTCEnabled - 是否启用 WebRTC/STUN 按普通规则分流（如未启用会把常见 STUN/TURN UDP 流量强制分流到代理）
  * @returns {string[]} 规则字符串数组
  */
-export function buildRules({ quicEnabled }: { quicEnabled: boolean }): string[] {
-    const ruleList = [...baseRules];
-    if (!quicEnabled) {
-        ruleList.unshift("AND,((DST-PORT,443),(NETWORK,UDP)),REJECT");
+export function buildRules({
+    quicEnabled,
+    webRTCEnabled,
+}: {
+    quicEnabled: boolean;
+    webRTCEnabled: boolean;
+}): string[] {
+    const ruleList: string[] = [];
+    if (!webRTCEnabled) {
+        ruleList.push(...WEBRTC_STUN_PROXY_RULES);
     }
-    return ruleList;
+    if (!quicEnabled) {
+        ruleList.push("AND,((DST-PORT,443),(NETWORK,UDP)),REJECT");
+    }
+    return [...ruleList, ...baseRules];
 }
