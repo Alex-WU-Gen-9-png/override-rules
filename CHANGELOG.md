@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.10](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.9...src-v2.3.10) (2026-05-25)
+
+
+### Features
+
+- Improve cn routing and dns tun defaults ([11a469c](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/11a469c3f01f9ca37236092c6867997369fcc722))
 ## [2.3.9](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.8...src-v2.3.9) (2026-05-17)
 
 
