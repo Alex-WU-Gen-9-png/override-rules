@@ -58,7 +58,9 @@ function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput
     const config: DnsConfig = {
         enable: true,
         ipv6: ipv6Enabled,
-        "prefer-h3": true,
+        // Mihomo docs explicitly discourage combining prefer-h3 with respect-rules.
+        "prefer-h3": false,
+        "respect-rules": true,
         "enhanced-mode": mode,
         "proxy-server-nameserver": ["tcp://223.5.5.5:53", "tcp://119.29.29.29:53"],
         "default-nameserver": ["tcp://223.5.5.5:53", "tcp://119.29.29.29:53"],

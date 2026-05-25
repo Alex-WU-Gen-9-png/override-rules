@@ -114,6 +114,7 @@ export interface DnsConfig {
     enable: boolean;
     ipv6: boolean;
     "prefer-h3": boolean;
+    "respect-rules"?: boolean;
     "enhanced-mode": "redir-host" | "fake-ip";
     "default-nameserver": string[];
     nameserver: string[];
