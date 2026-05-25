@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.14](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.13...src-v2.3.14) (2026-05-25)
+
+
+### Bug Fixes
+
+- Enforce strict tun routing for cn direct ([ee945f4](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/ee945f4f09fc647b517622984859007e8cb6890a))
 ## [2.3.13](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.12...src-v2.3.13) (2026-05-25)
 
 
