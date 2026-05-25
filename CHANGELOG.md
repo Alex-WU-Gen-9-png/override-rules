@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.13](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.12...src-v2.3.13) (2026-05-25)
+
+
+### Bug Fixes
+
+- Narrow cn direct routing to official domains ([1ee24ee](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/1ee24ee690f8e93cca5765fe8e1bc2723b455545))
 ## [2.3.12](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.11...src-v2.3.12) (2026-05-25)
 
 
