@@ -1,5 +1,7 @@
 import type { DnsConfig, SnifferConfig } from "./types";
 
+const REMOTE_DNS_SERVERS = ["tcp://1.1.1.1:53", "tcp://8.8.8.8:53"] as const;
+
 /**
  * 默认的 fake-ip 过滤域名列表。
  * 这些域名不会被 fake-ip 机制代理。
@@ -62,9 +64,9 @@ function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput
         "prefer-h3": false,
         "respect-rules": true,
         "enhanced-mode": mode,
-        "proxy-server-nameserver": ["tcp://223.5.5.5:53", "tcp://119.29.29.29:53"],
-        "default-nameserver": ["tcp://223.5.5.5:53", "tcp://119.29.29.29:53"],
-        nameserver: ["tcp://1.1.1.1:53", "tcp://8.8.8.8:53"],
+        "proxy-server-nameserver": [...REMOTE_DNS_SERVERS],
+        "default-nameserver": [...REMOTE_DNS_SERVERS],
+        nameserver: [...REMOTE_DNS_SERVERS],
         fallback: ["tcp://1.0.0.1:53", "tcp://8.8.4.4:53", "tls://1.1.1.1:853"],
         "nameserver-policy": {
             "*.zju.edu.cn": "system",
