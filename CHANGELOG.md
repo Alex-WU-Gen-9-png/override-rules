@@ -1,28 +1,24 @@
 # Changelog
 
+## [2.4.0](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.15...src-v2.4.0) (2026-05-26)
+
+
+### Features
+
+- Add MetaXD panel options ([b855001](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/b855001235b38d77a009e4056ccc71438bd55fa4))
 ## [2.3.15](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.14...src-v2.3.15) (2026-05-26)
 
 
 ### Bug Fixes
 
 - Remove redundant zju system dns policy ([c5b8f9a](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/c5b8f9a7b470e19780e7a3e69a57a57bb258877b))
-## [2.3.14](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.13...src-v2.3.14) (2026-05-25)
+## [2.3.14](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.11...src-v2.3.14) (2026-05-25)
 
 
 ### Bug Fixes
 
 - Enforce strict tun routing for cn direct ([ee945f4](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/ee945f4f09fc647b517622984859007e8cb6890a))
-## [2.3.13](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.12...src-v2.3.13) (2026-05-25)
-
-
-### Bug Fixes
-
 - Narrow cn direct routing to official domains ([1ee24ee](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/1ee24ee690f8e93cca5765fe8e1bc2723b455545))
-## [2.3.12](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.11...src-v2.3.12) (2026-05-25)
-
-
-### Bug Fixes
-
 - Avoid cn bootstrap dns leakage ([43cdc5c](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/43cdc5c9909112a431e19789b58fcb632b452fae))
 ## [2.3.11](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.10...src-v2.3.11) (2026-05-25)
 
