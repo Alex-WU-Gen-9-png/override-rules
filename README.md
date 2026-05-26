@@ -64,7 +64,8 @@
 *   `quic`：允许 QUIC 流量（UDP 443，默认 false）[^quic]
 *   `webrtc`：允许 WebRTC/STUN 按普通规则分流（默认 false；默认强制常见 STUN/TURN UDP 流量走 `选择代理` 以降低公网 IP 泄漏风险）[^webrtc]
 *   `regex`：各国家/地区代理组改用 `include-all` + 正则过滤模式，由 Mihomo 内核在运行时按正则动态筛选节点，而非在脚本执行时枚举节点名称（默认 false）[^regex]
-*   `tun`：启用 TUN 模式（system 栈，自动配置路由排除地址与 DNS 劫持，默认 false）
+*   `tun`：启用 TUN 模式（system 栈，自动配置路由、路由排除地址与 DNS 劫持，默认 false）
+*   `lan`：启用局域网透明代理辅助配置（写入 `dns.listen: 0.0.0.0:53`；当 `tun=true` 时额外写入 `auto-redirect: true`，默认 false）
 *   `threshold`：国家/地区节点数量小于该值时不显示分组（默认 0）
 *   `panelport`：MetaXD 面板控制端口，仅在 `full=true` 时生效（默认 9999）
 *   `panelsecret`：MetaXD 面板访问密码，仅在 `full=true` 时生效（默认空；包含特殊字符时请先 URL Encode）
@@ -103,6 +104,14 @@ https://raw.githubusercontent.com/powerfullz/override-rules/refs/heads/preview/c
 ```
 https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&panelport=9090&panelsecret=your-password
 ```
+
+需要开启局域网透明代理时，启用 TUN 与 LAN 支持：
+
+```
+https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&tun=true&lan=true
+```
+
+说明：`allow-lan` 与 `bind-address` 只影响 HTTP/SOCKS/mixed 代理端口的局域网访问；局域网透明代理主要依赖 TUN 自动路由/重定向、DNS 监听，以及客户端侧将网关和 DNS 指向运行 Mihomo 的设备。
 
 ### 关于各 Mihomo 客户端覆盖 GeoIP/GeoSite 下载地址的说明
 
@@ -158,22 +167,22 @@ proxies:
 文件命名规则依据支持的开关参数穷举，格式如下：
 
 ```text
-config_lb-{0|1}_cs-{0|1}_landing-{0|1}_ipv6-{0|1}_full-{0|1}_keepalive-{0|1}_fakeip-{0|1}_quic-{0|1}_webrtc-{0|1}_tun-{0|1}.yaml
+config_lb-{0|1}_cs-{0|1}_landing-{0|1}_ipv6-{0|1}_full-{0|1}_keepalive-{0|1}_fakeip-{0|1}_quic-{0|1}_webrtc-{0|1}_tun-{0|1}_lan-{0|1}.yaml
 ```
 
 **获取示例（开启 full，其余关闭）：**
 ```text
-https://cdn.jsdelivr.net/gh/powerfullz/override-rules/yamls/config_lb-0_cs-0_landing-0_ipv6-0_full-1_keepalive-0_fakeip-0_quic-0_webrtc-0_tun-0.yaml
+https://cdn.jsdelivr.net/gh/powerfullz/override-rules/yamls/config_lb-0_cs-0_landing-0_ipv6-0_full-1_keepalive-0_fakeip-0_quic-0_webrtc-0_tun-0_lan-0.yaml
 ```
 
 **固定版本获取示例：**
 ```text
-https://cdn.jsdelivr.net/gh/powerfullz/override-rules@v0.1.0/yamls/config_lb-0_cs-0_landing-0_ipv6-0_full-1_keepalive-0_fakeip-0_quic-0_webrtc-0_tun-0.yaml
+https://cdn.jsdelivr.net/gh/powerfullz/override-rules@v0.1.0/yamls/config_lb-0_cs-0_landing-0_ipv6-0_full-1_keepalive-0_fakeip-0_quic-0_webrtc-0_tun-0_lan-0.yaml
 ```
 
 如果使用镜像：
 ```text
-https://git.l3zc.com/powerfullz/override-rules/raw/branch/dist/yamls/config_lb-0_cs-0_landing-0_ipv6-0_full-1_keepalive-0_fakeip-0_quic-0_webrtc-0_tun-0.yaml
+https://git.l3zc.com/powerfullz/override-rules/raw/branch/dist/yamls/config_lb-0_cs-0_landing-0_ipv6-0_full-1_keepalive-0_fakeip-0_quic-0_webrtc-0_tun-0_lan-0.yaml
 ```
 
 *注：CI 仅套用了一份虚拟的 `fake_proxies.json` 来模拟生成 YAML，因此它无法像 JS 动态脚本那样根据你的实际节点智能生成专属分组策略，只能保守地包含常用的国家/地区。为了最高效的分流体验，仍强烈推荐使用 JS 覆写。*

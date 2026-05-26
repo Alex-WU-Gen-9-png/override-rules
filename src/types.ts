@@ -11,6 +11,7 @@ export interface ScriptArgs {
     regex?: string;
     threshold?: string;
     tun?: string;
+    lan?: string;
     panelport?: string;
     panelsecret?: string;
 }
@@ -28,6 +29,7 @@ export interface FeatureFlags {
     regexFilter: boolean;
     countryThreshold: number;
     tunEnabled: boolean;
+    lanEnabled: boolean;
     panelPort: number;
     panelSecret: string;
 }
@@ -110,12 +112,14 @@ export interface TunConfig {
     "dns-hijack": string[];
     mtu: number;
     "auto-route"?: boolean;
+    "auto-redirect"?: boolean;
     "auto-detect-interface"?: boolean;
     "strict-route"?: boolean;
 }
 
 export interface DnsConfig {
     enable: boolean;
+    listen?: string;
     ipv6: boolean;
     "prefer-h3": boolean;
     "respect-rules"?: boolean;

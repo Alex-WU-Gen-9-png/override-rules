@@ -32,6 +32,7 @@ const FEATURE_FLAG_DEFAULTS = {
     webRTCEnabled: false,
     regexFilter: false,
     tunEnabled: false,
+    lanEnabled: false,
     countryThreshold: 0,
     panelPort: 9999,
     panelSecret: "",

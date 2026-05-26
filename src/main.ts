@@ -8,6 +8,7 @@ https://github.com/powerfullz/override-rules
 - landing: 启用落地节点功能（如机场家宽/星链/落地分组，默认 false）
 - ipv6: 启用 IPv6 支持（默认 false）
 - tun: 启用 TUN 模式（默认 false）
+- lan: 启用局域网代理支持（默认 false；透明代理需配合 tun=true）
 - full: 输出完整配置（适合纯内核启动，默认 false）
 - keepalive: 启用 tcp-keep-alive（默认 false）
 - fakeip: DNS 使用 FakeIP 模式（默认 true；传 false 时为 RedirHost）
@@ -69,6 +70,7 @@ const {
     webRTCEnabled,
     regexFilter,
     tunEnabled,
+    lanEnabled,
     countryThreshold,
     panelPort,
     panelSecret,
@@ -161,8 +163,8 @@ function main(config: ClashConfig): ClashConfig {
         "rule-providers": ruleProviders,
         rules: finalRules,
         sniffer: snifferConfig,
-        dns: buildDns({ fakeIPEnabled, ipv6Enabled }),
-        tun: buildTunConfig(tunEnabled),
+        dns: buildDns({ fakeIPEnabled, ipv6Enabled, lanEnabled }),
+        tun: buildTunConfig({ tunEnabled, lanEnabled }),
         "geodata-mode": true,
         "geox-url": geoxURL,
     };

@@ -44,6 +44,7 @@ export const snifferConfig: SnifferConfig = {
 interface BuildDnsConfigInput {
     mode: "redir-host" | "fake-ip";
     ipv6Enabled: boolean;
+    lanEnabled: boolean;
     fakeIpFilter?: string[];
 }
 
@@ -54,9 +55,15 @@ interface BuildDnsConfigInput {
  * @param {string[]=} params.fakeIpFilter - fake-ip 过滤域名列表（可选）
  * @returns {DnsConfig} DNS 配置对象
  */
-function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput): DnsConfig {
+function buildDnsConfig({
+    mode,
+    ipv6Enabled,
+    lanEnabled,
+    fakeIpFilter,
+}: BuildDnsConfigInput): DnsConfig {
     const config: DnsConfig = {
         enable: true,
+        ...(lanEnabled ? { listen: "0.0.0.0:53" } : {}),
         ipv6: ipv6Enabled,
         // Mihomo docs explicitly discourage combining prefer-h3 with respect-rules.
         "prefer-h3": false,
@@ -86,6 +93,7 @@ function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput
 export interface BuildDnsInput {
     fakeIPEnabled: boolean;
     ipv6Enabled: boolean;
+    lanEnabled: boolean;
 }
 
 /**
@@ -94,13 +102,14 @@ export interface BuildDnsInput {
  * @param {boolean} params.fakeIPEnabled - 是否启用 fake-ip 模式
  * @returns {DnsConfig} DNS 配置对象
  */
-export function buildDns({ fakeIPEnabled, ipv6Enabled }: BuildDnsInput): DnsConfig {
+export function buildDns({ fakeIPEnabled, ipv6Enabled, lanEnabled }: BuildDnsInput): DnsConfig {
     if (fakeIPEnabled) {
         return buildDnsConfig({
             mode: "fake-ip",
             ipv6Enabled,
+            lanEnabled,
             fakeIpFilter: FAKE_IP_FILTER,
         });
     }
-    return buildDnsConfig({ mode: "redir-host", ipv6Enabled });
+    return buildDnsConfig({ mode: "redir-host", ipv6Enabled, lanEnabled });
 }

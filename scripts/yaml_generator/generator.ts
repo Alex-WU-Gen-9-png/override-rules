@@ -45,6 +45,7 @@ const FLAGS = [
     "quic",
     "webrtc",
     "tun",
+    "lan",
 ] as const;
 
 type FlagName = (typeof FLAGS)[number];
@@ -68,6 +69,7 @@ const FLAG_SHORT_NAMES: Record<FlagName, string> = {
     quic: "quic",
     webrtc: "webrtc",
     tun: "tun",
+    lan: "lan",
 };
 
 function loadFakeConfig(): ClashConfig {

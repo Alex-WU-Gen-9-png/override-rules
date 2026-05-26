@@ -1,6 +1,11 @@
 import type { TunConfig } from "./types";
 
-export function buildTunConfig(tunEnabled: boolean): TunConfig {
+interface BuildTunConfigInput {
+    tunEnabled: boolean;
+    lanEnabled: boolean;
+}
+
+export function buildTunConfig({ tunEnabled, lanEnabled }: BuildTunConfigInput): TunConfig {
     return {
         enable: tunEnabled,
         stack: "system",
@@ -16,6 +21,7 @@ export function buildTunConfig(tunEnabled: boolean): TunConfig {
         "dns-hijack": ["any:53", "tcp://any:53", "tls://any:853"],
         mtu: 1500,
         "auto-route": true,
+        ...(tunEnabled && lanEnabled ? { "auto-redirect": true } : {}),
         "auto-detect-interface": true,
         "strict-route": true,
     };
