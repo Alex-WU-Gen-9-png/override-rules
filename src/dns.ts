@@ -67,7 +67,6 @@ function buildDnsConfig({ mode, ipv6Enabled, fakeIpFilter }: BuildDnsConfigInput
         nameserver: ["tcp://1.1.1.1:53", "tcp://8.8.8.8:53"],
         fallback: ["tcp://1.0.0.1:53", "tcp://8.8.4.4:53", "tls://1.1.1.1:853"],
         "nameserver-policy": {
-            "*.zju.edu.cn": "system",
             "+.zju.edu.cn": "10.10.0.21",
         },
     };
