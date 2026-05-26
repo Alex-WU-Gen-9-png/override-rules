@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.3.15](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.14...src-v2.3.15) (2026-05-26)
+
+
+### Bug Fixes
+
+- Remove redundant zju system dns policy ([c5b8f9a](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/c5b8f9a7b470e19780e7a3e69a57a57bb258877b))
 ## [2.3.14](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.13...src-v2.3.14) (2026-05-25)
 
 
