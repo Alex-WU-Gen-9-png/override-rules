@@ -66,6 +66,8 @@
 *   `regex`：各国家/地区代理组改用 `include-all` + 正则过滤模式，由 Mihomo 内核在运行时按正则动态筛选节点，而非在脚本执行时枚举节点名称（默认 false）[^regex]
 *   `tun`：启用 TUN 模式（system 栈，自动配置路由排除地址与 DNS 劫持，默认 false）
 *   `threshold`：国家/地区节点数量小于该值时不显示分组（默认 0）
+*   `panelport`：MetaXD 面板控制端口，仅在 `full=true` 时生效（默认 9999）
+*   `panelsecret`：MetaXD 面板访问密码，仅在 `full=true` 时生效（默认空；包含特殊字符时请先 URL Encode）
 
 [^landing]: 注意在默认的枚举模式下，如果没有符合条件的落地节点（e.g 名称中带有「家宽」、「商宽」、「落地」等关键词的节点），内核会无法启动。
 [^quic]: 默认屏蔽了 QUIC 流量防止节点 UDP 性能不佳影响上网体验，如果确信节点质量良好，建议设置为 true。
@@ -94,6 +96,12 @@ https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#landing=tru
 
 ```
 https://raw.githubusercontent.com/powerfullz/override-rules/refs/heads/preview/convert.min.js
+```
+
+需要自定义 MetaXD 面板端口和密码时，开启完整配置并追加参数：
+
+```
+https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&panelport=9090&panelsecret=your-password
 ```
 
 ### 关于各 Mihomo 客户端覆盖 GeoIP/GeoSite 下载地址的说明

@@ -33,6 +33,8 @@ const FEATURE_FLAG_DEFAULTS = {
     regexFilter: false,
     tunEnabled: false,
     countryThreshold: 0,
+    panelPort: 9999,
+    panelSecret: "",
 } as const;
 ```
 

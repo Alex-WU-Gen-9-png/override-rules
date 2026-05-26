@@ -15,6 +15,8 @@ https://github.com/powerfullz/override-rules
 - webrtc: 允许 WebRTC/STUN 按普通规则分流（默认 false；默认强制 STUN UDP 走代理）
 - threshold: 地区节点数量小于该值时不显示分组 (默认 0)
 - regex: 使用正则过滤模式（include-all + filter）写入各地区代理组，而非直接枚举节点名称（默认 false）
+- panelport: MetaXD 面板控制端口（仅 full=true 时生效，默认 9999）
+- panelsecret: MetaXD 面板访问密码（仅 full=true 时生效，默认空）
 
 源码已迁移至 `src/*.ts`。
 */
@@ -68,6 +70,8 @@ const {
     regexFilter,
     tunEnabled,
     countryThreshold,
+    panelPort,
+    panelSecret,
 } = buildFeatureFlags(rawArgs);
 
 function main(config: ClashConfig): ClashConfig {
@@ -144,7 +148,12 @@ function main(config: ClashConfig): ClashConfig {
             "find-process-mode": "off",
             "log-level": "info",
             "geodata-loader": "standard",
-            "external-controller": ":9999",
+            "external-controller": `:${panelPort}`,
+            "external-ui": "ui",
+            "external-ui-name": "xd",
+            "external-ui-url":
+                "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
+            ...(panelSecret && { secret: panelSecret }),
             "disable-keep-alive": !keepAliveEnabled,
             profile: { "store-selected": true },
         }),

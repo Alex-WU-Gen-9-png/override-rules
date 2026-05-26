@@ -11,6 +11,8 @@ export interface ScriptArgs {
     regex?: string;
     threshold?: string;
     tun?: string;
+    panelport?: string;
+    panelsecret?: string;
 }
 
 export interface FeatureFlags {
@@ -26,6 +28,8 @@ export interface FeatureFlags {
     regexFilter: boolean;
     countryThreshold: number;
     tunEnabled: boolean;
+    panelPort: number;
+    panelSecret: string;
 }
 
 export interface ProxyNode {
@@ -175,6 +179,10 @@ export interface ClashConfig {
     "log-level"?: "info" | "warning" | "error" | "debug" | "silent";
     "geodata-loader"?: "standard" | "memconservative";
     "external-controller"?: string;
+    "external-ui"?: string;
+    "external-ui-name"?: string;
+    "external-ui-url"?: string;
+    secret?: string;
     "disable-keep-alive"?: boolean;
     profile?: ClashProfile;
 }
