@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.1](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.0...src-v2.4.1) (2026-05-26)
+
+
+### Features
+
+- Add optional LAN transparent proxy config ([d090ef7](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/d090ef76dc6146acd6571f14d265d0899b9e5f07))
 ## [2.4.0](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.3.15...src-v2.4.0) (2026-05-26)
 
 
