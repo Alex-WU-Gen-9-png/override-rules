@@ -65,7 +65,7 @@
 *   `webrtc`：允许 WebRTC/STUN 按普通规则分流（默认 false；默认强制常见 STUN/TURN UDP 流量走 `选择代理` 以降低公网 IP 泄漏风险）[^webrtc]
 *   `regex`：各国家/地区代理组改用 `include-all` + 正则过滤模式，由 Mihomo 内核在运行时按正则动态筛选节点，而非在脚本执行时枚举节点名称（默认 false）[^regex]
 *   `tun`：启用 TUN 模式（system 栈，自动配置路由、路由排除地址与 DNS 劫持，默认 false）
-*   `lan`：启用局域网透明代理辅助配置（写入 `dns.listen: 0.0.0.0:53`；当 `tun=true` 时额外写入 `auto-redirect: true`，默认 false）
+*   `lan`：启用局域网透明代理辅助配置（写入 `dns.listen: 0.0.0.0:53`；当 `tun=true` 时额外写入 `auto-redirect: true`，并保留 `10.0.0.0/8` 进入 TUN 分流以兼容 ZJU 内网访问，默认 false）
 *   `threshold`：国家/地区节点数量小于该值时不显示分组（默认 0）
 *   `panelport`：MetaXD 面板控制端口，仅在 `full=true` 时生效（默认 9999）
 *   `panelsecret`：MetaXD 面板访问密码，仅在 `full=true` 时生效（默认空；包含特殊字符时请先 URL Encode）
@@ -111,7 +111,7 @@ https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&p
 https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&tun=true&lan=true
 ```
 
-说明：`allow-lan` 与 `bind-address` 只影响 HTTP/SOCKS/mixed 代理端口的局域网访问；局域网透明代理主要依赖 TUN 自动路由/重定向、DNS 监听，以及客户端侧将网关和 DNS 指向运行 Mihomo 的设备。
+说明：`allow-lan` 与 `bind-address` 只影响 HTTP/SOCKS/mixed 代理端口的局域网访问；局域网透明代理主要依赖 TUN 自动路由/重定向、DNS 监听，以及客户端侧将网关和 DNS 指向运行 Mihomo 的设备。为兼容 ZJU 等使用 `10.0.0.0/8` 的内网资源，`lan=true` 时不会把 `10.0.0.0/8` 从 TUN 路由中排除。常见内网域名后缀（如 `.lan`、`.local`、`.home.arpa`）默认会加入 `fake-ip-filter`，避免客户端用域名访问内网设备时拿到 fake-ip。
 
 ### 关于各 Mihomo 客户端覆盖 GeoIP/GeoSite 下载地址的说明
 

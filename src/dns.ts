@@ -1,5 +1,14 @@
 import type { DnsConfig, SnifferConfig } from "./types";
 
+const LOCAL_DOMAIN_FAKE_IP_FILTER = [
+    "+.lan",
+    "+.local",
+    "+.localdomain",
+    "+.home",
+    "+.home.arpa",
+    "+.internal",
+];
+
 /**
  * 默认的 fake-ip 过滤域名列表。
  * 这些域名不会被 fake-ip 机制代理。
@@ -9,6 +18,7 @@ const FAKE_IP_FILTER = [
     "geosite:connectivity-check",
     "geosite:cn",
     "+.zju.edu.cn",
+    ...LOCAL_DOMAIN_FAKE_IP_FILTER,
     "Mijia Cloud",
     "dlg.io.mi.com",
     "localhost.ptlogin2.qq.com",

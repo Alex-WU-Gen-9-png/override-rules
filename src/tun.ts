@@ -5,19 +5,27 @@ interface BuildTunConfigInput {
     lanEnabled: boolean;
 }
 
+const DEFAULT_ROUTE_EXCLUDE_ADDRESS = [
+    "10.0.0.0/8",
+    "172.16.0.0/12",
+    "100.64.0.0/10",
+    "192.168.0.0/16",
+    "fd00::/8",
+    "fd7a:115c:a1e0::/48",
+];
+
+const LAN_ROUTE_EXCLUDE_ADDRESS = DEFAULT_ROUTE_EXCLUDE_ADDRESS.filter(
+    (address) => address !== "10.0.0.0/8"
+);
+
 export function buildTunConfig({ tunEnabled, lanEnabled }: BuildTunConfigInput): TunConfig {
     return {
         enable: tunEnabled,
         stack: "system",
         device: "Mihomo_Tun",
-        "route-exclude-address": [
-            "10.0.0.0/8",
-            "172.16.0.0/12",
-            "100.64.0.0/10",
-            "192.168.0.0/16",
-            "fd00::/8",
-            "fd7a:115c:a1e0::/48",
-        ],
+        "route-exclude-address": lanEnabled
+            ? LAN_ROUTE_EXCLUDE_ADDRESS
+            : DEFAULT_ROUTE_EXCLUDE_ADDRESS,
         "dns-hijack": ["any:53", "tcp://any:53", "tls://any:853"],
         mtu: 1500,
         "auto-route": true,
