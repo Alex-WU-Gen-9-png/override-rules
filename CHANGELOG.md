@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.2](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.1...src-v2.4.2) (2026-05-27)
+
+
+### Bug Fixes
+
+- Preserve ZJU LAN transparent proxy routing ([329ab89](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/329ab895bf664d8f491bb374c7456eab0173ed31))
 ## [2.4.1](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.0...src-v2.4.1) (2026-05-26)
 
 
