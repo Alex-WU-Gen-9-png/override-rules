@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.5](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.4...src-v2.4.5) (2026-05-28)
+
+
+### Bug Fixes
+
+- Keep DDNS hosts out of tun exclude prefixes ([47edd72](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/47edd721a580da824670181a553c40e9ebca6cb5))
 ## [2.4.4](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.3...src-v2.4.4) (2026-05-28)
 
 
