@@ -71,7 +71,7 @@ function buildTunExcludeAddress(proxy: ProxyNode): string | null {
         return `${stripIpv6Zone(server)}/128`;
     }
 
-    return server;
+    return null;
 }
 
 export function applyIPv6NodeOptions({

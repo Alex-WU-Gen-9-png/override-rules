@@ -76,7 +76,7 @@
 [^webrtc]: 默认强制走代理时，如果所选代理不支持 UDP，部分浏览器实时音视频、P2P 或在线会议场景会降级或不可用；确实需要按原始规则处理 WebRTC 时可以显式设置为 `true`。
 [^regex]: 默认情况下覆写脚本会直接把节点都筛选好，如果想让内核来筛（比如，你在 Clash Party 客户端里额外添加了自建节点，想直接通过正则表达式筛选进入配置文件）那就打开吧。
 
-IPv6 Only 节点会根据节点名称、IPv6 字面量地址，以及带有 `v6`/`ipv6` 特征的 DDNS 域名自动识别；识别后会补充 `ip-version: ipv6`，并将对应服务端地址合并进 TUN 的 `route-exclude-address`。
+IPv6 Only 节点会根据节点名称、IPv6 字面量地址，以及带有 `v6`/`ipv6` 特征的 DDNS 域名自动识别；识别后会补充 `ip-version: ipv6`。其中只有 IPv6 字面量地址会以 `/128` 合并进 TUN 的 `route-exclude-address`，DDNS 域名不会写入该列表，避免被 Mihomo 当作 CIDR 解析失败。
 
 说明：支持字符串 true/false 或 1/0；。注：预生成的 YAML 格式覆写（`yamls/` 目录）固定使用正则模式，不受此参数影响。
 
