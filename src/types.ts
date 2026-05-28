@@ -3,6 +3,8 @@ export interface ScriptArgs {
     countryselect?: string;
     landing?: string;
     ipv6?: string;
+    ipv6interface?: string;
+    ipv6_interface?: string;
     full?: string;
     keepalive?: string;
     fakeip?: string;
@@ -21,6 +23,7 @@ export interface FeatureFlags {
     countrySelect: boolean;
     landing: boolean;
     ipv6Enabled: boolean;
+    ipv6InterfaceName: string;
     fullConfig: boolean;
     keepAliveEnabled: boolean;
     fakeIPEnabled: boolean;
@@ -39,6 +42,8 @@ export interface ProxyNode {
     type?: string;
     server?: string;
     port?: number;
+    "ip-version"?: "dual" | "ipv4" | "ipv6" | "ipv4-prefer" | "ipv6-prefer";
+    "interface-name"?: string;
     [key: string]: unknown;
 }
 

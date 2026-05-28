@@ -58,6 +58,7 @@
 *   `countryselect`：国家/地区节点使用手动选择（默认 true；仅当 `loadbalance=false&countryselect=false` 时改用 `url-test`）
 *   `landing`：启用落地节点功能（如机场家宽/星链/落地分组，默认 false）[^landing]
 *   `ipv6`：启用 IPv6 支持（默认 false）
+*   `ipv6interface` / `ipv6_interface`：为识别出的 IPv6 Only 节点写入 `interface-name`（例如 `en0`、`eth0`，默认空；这些节点会自动写入 `ip-version: ipv6`）
 *   `full`：生成完整配置（适合纯内核启动，默认 false）
 *   `keepalive`：启用 TCP Keep Alive（默认 false）[^fn2]
 *   `fakeip`：DNS 增强模式使用 `fake-ip` 而不是 `redir-host`（开启后可能有助于解决 TUN 模式无法上网的问题；未传参时默认 `true`，显式传 `false` 时使用 `redir-host`）
@@ -74,6 +75,8 @@
 [^quic]: 默认屏蔽了 QUIC 流量防止节点 UDP 性能不佳影响上网体验，如果确信节点质量良好，建议设置为 true。
 [^webrtc]: 默认强制走代理时，如果所选代理不支持 UDP，部分浏览器实时音视频、P2P 或在线会议场景会降级或不可用；确实需要按原始规则处理 WebRTC 时可以显式设置为 `true`。
 [^regex]: 默认情况下覆写脚本会直接把节点都筛选好，如果想让内核来筛（比如，你在 Clash Party 客户端里额外添加了自建节点，想直接通过正则表达式筛选进入配置文件）那就打开吧。
+
+IPv6 Only 节点会根据节点名称、IPv6 字面量地址，以及带有 `v6`/`ipv6` 特征的 DDNS 域名自动识别；识别后会补充 `ip-version: ipv6`，并将对应服务端地址合并进 TUN 的 `route-exclude-address`。
 
 说明：支持字符串 true/false 或 1/0；。注：预生成的 YAML 格式覆写（`yamls/` 目录）固定使用正则模式，不受此参数影响。
 

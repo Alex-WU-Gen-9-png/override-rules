@@ -6,6 +6,7 @@ export const FEATURE_FLAG_DEFAULTS = {
     countrySelect: true,
     landing: false,
     ipv6Enabled: false,
+    ipv6InterfaceName: "",
     fullConfig: false,
     keepAliveEnabled: false,
     fakeIPEnabled: true,
@@ -29,6 +30,10 @@ function parseString(value: unknown, defaultValue = ""): string {
     return String(value);
 }
 
+function parseTrimmedString(value: unknown, defaultValue = ""): string {
+    return parseString(value, defaultValue).trim();
+}
+
 /**
  * 解析传入的脚本参数，并将其转换为内部使用的功能开关（feature flags）。
  * @param args - 从外部脚本环境（如 Substore）传入的原始参数对象
@@ -40,6 +45,10 @@ export function buildFeatureFlags(args: ScriptArgs): FeatureFlags {
         countrySelect: parseBool(args.countryselect, FEATURE_FLAG_DEFAULTS.countrySelect),
         landing: parseBool(args.landing, FEATURE_FLAG_DEFAULTS.landing),
         ipv6Enabled: parseBool(args.ipv6, FEATURE_FLAG_DEFAULTS.ipv6Enabled),
+        ipv6InterfaceName: parseTrimmedString(
+            args.ipv6interface ?? args.ipv6_interface,
+            FEATURE_FLAG_DEFAULTS.ipv6InterfaceName
+        ),
         fullConfig: parseBool(args.full, FEATURE_FLAG_DEFAULTS.fullConfig),
         keepAliveEnabled: parseBool(args.keepalive, FEATURE_FLAG_DEFAULTS.keepAliveEnabled),
         fakeIPEnabled: parseBool(args.fakeip, FEATURE_FLAG_DEFAULTS.fakeIPEnabled),

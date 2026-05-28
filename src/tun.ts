@@ -3,6 +3,7 @@ import type { TunConfig } from "./types";
 interface BuildTunConfigInput {
     tunEnabled: boolean;
     lanEnabled: boolean;
+    routeExcludeAddress?: string[];
 }
 
 const DEFAULT_ROUTE_EXCLUDE_ADDRESS = [
@@ -18,14 +19,24 @@ const LAN_ROUTE_EXCLUDE_ADDRESS = DEFAULT_ROUTE_EXCLUDE_ADDRESS.filter(
     (address) => address !== "10.0.0.0/8"
 );
 
-export function buildTunConfig({ tunEnabled, lanEnabled }: BuildTunConfigInput): TunConfig {
+function uniqueValues(values: string[]): string[] {
+    return Array.from(new Set(values));
+}
+
+export function buildTunConfig({
+    tunEnabled,
+    lanEnabled,
+    routeExcludeAddress = [],
+}: BuildTunConfigInput): TunConfig {
+    const baseRouteExcludeAddress = lanEnabled
+        ? LAN_ROUTE_EXCLUDE_ADDRESS
+        : DEFAULT_ROUTE_EXCLUDE_ADDRESS;
+
     return {
         enable: tunEnabled,
         stack: "system",
         device: "Mihomo_Tun",
-        "route-exclude-address": lanEnabled
-            ? LAN_ROUTE_EXCLUDE_ADDRESS
-            : DEFAULT_ROUTE_EXCLUDE_ADDRESS,
+        "route-exclude-address": uniqueValues([...baseRouteExcludeAddress, ...routeExcludeAddress]),
         "dns-hijack": ["any:53", "tcp://any:53", "tls://any:853"],
         mtu: 1500,
         "auto-route": true,

@@ -7,6 +7,7 @@ https://github.com/powerfullz/override-rules
 - countryselect: 国家/地区节点使用手动选择（默认 true；传 false 时在非负载均衡模式下改用 url-test）
 - landing: 启用落地节点功能（如机场家宽/星链/落地分组，默认 false）
 - ipv6: 启用 IPv6 支持（默认 false）
+- ipv6interface/ipv6_interface: IPv6 Only 节点绑定的出站网卡（默认空）
 - tun: 启用 TUN 模式（默认 false）
 - lan: 启用局域网代理支持（默认 false；透明代理需配合 tun=true）
 - full: 输出完整配置（适合纯内核启动，默认 false）
@@ -32,6 +33,7 @@ import {
     parseNodesByLanding,
     stripNodeSuffix,
 } from "./node_parser";
+import { applyIPv6NodeOptions } from "./ipv6_nodes";
 import { buildRules } from "./rules";
 import { ruleProviders } from "./rule_providers";
 import { buildDns, snifferConfig } from "./dns";
@@ -63,6 +65,7 @@ const {
     countrySelect,
     landing,
     ipv6Enabled,
+    ipv6InterfaceName,
     fullConfig,
     keepAliveEnabled,
     fakeIPEnabled,
@@ -77,6 +80,10 @@ const {
 } = buildFeatureFlags(rawArgs);
 
 function main(config: ClashConfig): ClashConfig {
+    const { proxies, routeExcludeAddress } = applyIPv6NodeOptions({
+        proxies: config.proxies,
+        ipv6InterfaceName,
+    });
     const countryInfo = parseCountries(config, landing);
     const lowCostNodes = parseLowCost(config);
     const countryGroupNames = getCountryGroupNames(countryInfo, countryThreshold);
@@ -135,7 +142,7 @@ function main(config: ClashConfig): ClashConfig {
     const finalRules = buildRules({ quicEnabled, webRTCEnabled });
 
     return {
-        proxies: config.proxies,
+        proxies,
         ...(fullConfig && {
             "mixed-port": 7890,
             "redir-port": 7892,
@@ -164,7 +171,7 @@ function main(config: ClashConfig): ClashConfig {
         rules: finalRules,
         sniffer: snifferConfig,
         dns: buildDns({ fakeIPEnabled, ipv6Enabled, lanEnabled }),
-        tun: buildTunConfig({ tunEnabled, lanEnabled }),
+        tun: buildTunConfig({ tunEnabled, lanEnabled, routeExcludeAddress }),
         "geodata-mode": true,
         "geox-url": geoxURL,
     };

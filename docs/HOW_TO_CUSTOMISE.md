@@ -25,6 +25,7 @@ const FEATURE_FLAG_DEFAULTS = {
     countrySelect: true,
     landing: false,
     ipv6Enabled: true, // 例如：修改此处，默认开启 IPv6
+    ipv6InterfaceName: "", // 例如："en0"，为 IPv6 Only 节点指定出站网卡
     fullConfig: false,
     keepAliveEnabled: false,
     fakeIPEnabled: true,
