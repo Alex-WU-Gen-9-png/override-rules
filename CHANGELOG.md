@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.4](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.3...src-v2.4.4) (2026-05-28)
+
+
+### Bug Fixes
+
+- Prefer cn routing before static cdn rules ([9900cdb](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/9900cdb6946057866c4df1199bc429b988117559))
 ## [2.4.3](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.2...src-v2.4.3) (2026-05-28)
 
 
