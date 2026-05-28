@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.4.3](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.2...src-v2.4.3) (2026-05-28)
+
+
+### Bug Fixes
+
+- Handle IPv6-only proxy routing ([c35b8a6](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/c35b8a6b7c76af06a61dffddd5014f219b592856))
 ## [2.4.2](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.1...src-v2.4.2) (2026-05-27)
 
 
