@@ -279,12 +279,6 @@ export function buildProxyGroups({
             proxies: [BUILTIN_DIRECT, PROXY_GROUPS.SELECT, PROXY_GROUPS.MANUAL],
         },
         {
-            name: PROXY_GROUPS.SSH,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Server.png`,
-            type: "select",
-            proxies: proxyGroupProxies,
-        },
-        {
             name: PROXY_GROUPS.AUTO,
             icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Auto.png`,
             type: "url-test",

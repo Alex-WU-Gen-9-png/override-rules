@@ -29,7 +29,6 @@ export const PROXY_GROUPS = {
     GAME: "游戏服务",
     FINANCE: "金融加密",
     ZJU: "ZJU",
-    SSH: "SSH",
     GLOBAL: "GLOBAL",
 } as const;
 

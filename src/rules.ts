@@ -12,24 +12,6 @@ const WEBRTC_STUN_PROXY_RULES = [
     ),
 ];
 
-const ALIYUN_DOMESTIC_RULES = [
-    `DOMAIN-SUFFIX,intl.aliyun.com,${BUILTIN_REJECT}`,
-    `DOMAIN,www.alibabacloud.com,${BUILTIN_REJECT}`,
-    `DOMAIN-SUFFIX,aliyun.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,aliyuncs.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,aliyun-inc.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,dingtalk.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,aliwork.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,alicdn.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,alyasset.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,alcasset.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,alipay.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,alipayobjects.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,mmstat.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN-SUFFIX,aliapp.org,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-    `DOMAIN,fourier.taobao.com,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
-];
-
 function buildRuleSetRules(stage: RuleStage): string[] {
     return ruleCatalog
         .filter((item) => item.stage === stage)
@@ -37,7 +19,6 @@ function buildRuleSetRules(stage: RuleStage): string[] {
 }
 
 const CORE_DIRECT_RULES = [
-    `DST-PORT,22,${PROXY_GROUPS.SSH}`,
     `GEOSITE,private,${BUILTIN_DIRECT}`,
     `GEOSITE,connectivity-check,${BUILTIN_DIRECT}`,
     `GEOIP,private,${BUILTIN_DIRECT},no-resolve`,
@@ -45,7 +26,6 @@ const CORE_DIRECT_RULES = [
 ];
 
 const DOMESTIC_PLATFORM_RULES = [
-    ...ALIYUN_DOMESTIC_RULES,
     `GEOSITE,google-play@cn,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
     `GEOSITE,microsoft@cn,${PROXY_GROUPS.DOMESTIC_SERVICES}`,
 ];
