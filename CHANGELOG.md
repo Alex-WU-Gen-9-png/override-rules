@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.0](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.5...src-v3.0.0) (2026-05-29)
+
+
+### Refactoring
+
+- Refactor rules for gui-controlled routing ([b732347](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/b73234711202f83cf925ad2433e8629606613b31))
 ## [2.4.5](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.4...src-v2.4.5) (2026-05-28)
 
 
