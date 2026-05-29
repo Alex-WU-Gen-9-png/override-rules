@@ -10,7 +10,10 @@ export type RuleStage =
     | "guard"
     | "ai"
     | "overseasMedia"
-    | "asiaMedia"
+    | "hkMedia"
+    | "twMedia"
+    | "jpMedia"
+    | "krMedia"
     | "domestic"
     | "social"
     | "developer"
@@ -211,23 +214,25 @@ export const ruleCatalog: RuleCatalogItem[] = [
     blackmatrixItem("DAZN", "DAZN", PROXY_GROUPS.OVERSEAS_MEDIA, "overseasMedia"),
     catalogItem("EHentai", selfClassical("EHentai"), PROXY_GROUPS.OVERSEAS_MEDIA, "overseasMedia"),
 
-    sukkaClassical("StreamHK", "non_ip", "stream_hk", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    sukkaClassical("StreamHKIP", "ip", "stream_hk", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    sukkaClassical("StreamTW", "non_ip", "stream_tw", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    sukkaClassical("StreamTWIP", "ip", "stream_tw", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    sukkaClassical("StreamJP", "non_ip", "stream_jp", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    sukkaClassical("StreamJPIP", "ip", "stream_jp", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    sukkaClassical("StreamKR", "non_ip", "stream_kr", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    sukkaClassical("StreamKRIP", "ip", "stream_kr", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    blackmatrixItem("Bahamut", "Bahamut", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    blackmatrixItem("BiliBiliIntl", "BiliBiliIntl", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    blackmatrixItem("AbemaTV", "AbemaTV", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    blackmatrixItem("TVB", "TVB", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    blackmatrixItem("ViuTV", "ViuTV", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    blackmatrixItem("Niconico", "Niconico", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    blackmatrixItem("HuluJP", "HuluJP", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    blackmatrixItem("KKTV", "KKTV", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
-    blackmatrixItem("LiTV", "LiTV", PROXY_GROUPS.ASIA_MEDIA, "asiaMedia"),
+    sukkaClassical("StreamHK", "non_ip", "stream_hk", PROXY_GROUPS.HK_MEDIA, "hkMedia"),
+    sukkaClassical("StreamHKIP", "ip", "stream_hk", PROXY_GROUPS.HK_MEDIA, "hkMedia"),
+    blackmatrixItem("TVB", "TVB", PROXY_GROUPS.HK_MEDIA, "hkMedia"),
+    blackmatrixItem("ViuTV", "ViuTV", PROXY_GROUPS.HK_MEDIA, "hkMedia"),
+
+    sukkaClassical("StreamTW", "non_ip", "stream_tw", PROXY_GROUPS.TW_MEDIA, "twMedia"),
+    sukkaClassical("StreamTWIP", "ip", "stream_tw", PROXY_GROUPS.TW_MEDIA, "twMedia"),
+    blackmatrixItem("Bahamut", "Bahamut", PROXY_GROUPS.TW_MEDIA, "twMedia"),
+    blackmatrixItem("KKTV", "KKTV", PROXY_GROUPS.TW_MEDIA, "twMedia"),
+    blackmatrixItem("LiTV", "LiTV", PROXY_GROUPS.TW_MEDIA, "twMedia"),
+
+    sukkaClassical("StreamJP", "non_ip", "stream_jp", PROXY_GROUPS.JP_MEDIA, "jpMedia"),
+    sukkaClassical("StreamJPIP", "ip", "stream_jp", PROXY_GROUPS.JP_MEDIA, "jpMedia"),
+    blackmatrixItem("AbemaTV", "AbemaTV", PROXY_GROUPS.JP_MEDIA, "jpMedia"),
+    blackmatrixItem("Niconico", "Niconico", PROXY_GROUPS.JP_MEDIA, "jpMedia"),
+    blackmatrixItem("HuluJP", "HuluJP", PROXY_GROUPS.JP_MEDIA, "jpMedia"),
+
+    sukkaClassical("StreamKR", "non_ip", "stream_kr", PROXY_GROUPS.KR_MEDIA, "krMedia"),
+    sukkaClassical("StreamKRIP", "ip", "stream_kr", PROXY_GROUPS.KR_MEDIA, "krMedia"),
 
     blackmatrixItem("BiliBili", "BiliBili", PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),
     catalogItem("Weibo", selfClassical("Weibo"), PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),

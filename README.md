@@ -139,7 +139,10 @@ https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&t
 | 隐私防护 | `REJECT` | 搜狗输入回传、HTTPDNS 等隐私风险规则 |
 | AI服务 | `选择代理` | OpenAI、Gemini、Claude、Copilot、Apple Intelligence 等 |
 | 海外流媒体 | `选择代理` | Netflix、YouTube、Disney+、Spotify、TikTok、Twitch 等 |
-| 港台日韩媒体 | `选择代理` | Bahamut、BiliBili Intl、Abema、ViuTV、Hulu JP 等区域媒体 |
+| 香港媒体 | 对应地区节点 | Hong Kong 流媒体、TVB、ViuTV 等 |
+| 台湾媒体 | 对应地区节点 | Taiwan 流媒体、Bahamut、KKTV、LiTV 等 |
+| 日本媒体 | 对应地区节点 | Japan 流媒体、Abema、Niconico、Hulu JP 等 |
+| 韩国媒体 | 对应地区节点 | Korea 流媒体 |
 | 国内应用 | `DIRECT` | 国内应用、Apple CN、Microsoft CN、Google Play CN、阿里云/钉钉等可切换直连业务 |
 | 社交通讯 | `选择代理` | Telegram、Twitter/X、Facebook、Instagram、Discord、Reddit、Line 等 |
 | 开发服务 | `选择代理` | GitHub、GitLab、Docker、npm、PyPI、JetBrains、Vercel、Cloudflare 等 |
@@ -147,6 +150,8 @@ https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&t
 | 下载与静态资源 | `选择代理` | CDN、对象存储、软件下载、Steam 下载修正、PikPak 等 |
 | 游戏服务 | `选择代理` | Steam、Xbox、PlayStation、Nintendo、Epic、Blizzard、Riot、HoYoverse 等 |
 | 金融加密 | `选择代理` | 加密货币、交易所、PayPal、Stripe 等 |
+
+地区媒体组会优先挂对应地区节点组，例如「香港媒体」优先挂「香港节点」，你可以继续在「香港节点」里选择、测速或负载均衡具体节点；如果订阅里没有识别到对应地区节点，则按邻近地区顺序回退，例如「韩国媒体」会尝试「日本节点」「新加坡节点」「美国节点」「香港节点」「台湾节点」，最后才使用通用代理候选兜底，避免配置不可用。
 
 不会再生成可见的「直连」策略组。私网/LAN、路由器、本地发现、连接检测、ZJU 内网等硬直连规则会直接写入 Mihomo 内置 `DIRECT`，避免出现「直连组里还能选代理」的反直觉行为。`ZJU` 组仍保留给更宽泛的校园/IP 认证资源，`国内应用` 这类可切换直连业务则保留为可见策略组，默认选 `DIRECT`，需要时可以在 GUI 里切到代理。
 

@@ -39,7 +39,7 @@ const OVERSEAS_MEDIA_RULES = [
     `GEOSITE,spotify,${PROXY_GROUPS.OVERSEAS_MEDIA}`,
 ];
 
-const ASIA_MEDIA_RULES = [`GEOSITE,bahamut,${PROXY_GROUPS.ASIA_MEDIA}`];
+const TW_MEDIA_RULES = [`GEOSITE,bahamut,${PROXY_GROUPS.TW_MEDIA}`];
 
 const DOMESTIC_SERVICE_RULES = [`GEOSITE,bilibili,${PROXY_GROUPS.DOMESTIC_SERVICES}`];
 
@@ -75,8 +75,11 @@ const baseRules = [
     ...AI_RULES,
     ...buildRuleSetRules("overseasMedia"),
     ...OVERSEAS_MEDIA_RULES,
-    ...buildRuleSetRules("asiaMedia"),
-    ...ASIA_MEDIA_RULES,
+    ...buildRuleSetRules("hkMedia"),
+    ...buildRuleSetRules("twMedia"),
+    ...TW_MEDIA_RULES,
+    ...buildRuleSetRules("jpMedia"),
+    ...buildRuleSetRules("krMedia"),
     ...DOMESTIC_PLATFORM_RULES,
     ...buildRuleSetRules("domestic"),
     ...DOMESTIC_SERVICE_RULES,

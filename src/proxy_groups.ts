@@ -145,6 +145,7 @@ export function buildProxyGroups({
     const regionalProxyGroups = countryProxyGroups.map((group) => group.name);
     const hasLowCost = lowCostNodes.length > 0 || regexFilter;
     const lowCostGroup = hasLowCost ? PROXY_GROUPS.LOW_COST : false;
+    const regionalProxyGroupSet = new Set(regionalProxyGroups);
     const proxyGroupProxies = buildList(
         PROXY_GROUPS.SELECT,
         landing && PROXY_GROUPS.LANDING,
@@ -162,6 +163,12 @@ export function buildProxyGroups({
         PROXY_GROUPS.MANUAL
     );
     const rejectGroupProxies = [BUILTIN_REJECT, BUILTIN_REJECT_DROP, BUILTIN_DIRECT];
+    const buildRegionalMediaProxies = (countries: string[]): string[] => {
+        const regionalFallback = countries
+            .map((country) => `${country}${NODE_SUFFIX}`)
+            .filter((groupName) => regionalProxyGroupSet.has(groupName));
+        return regionalFallback.length > 0 ? regionalFallback : proxyGroupProxies;
+    };
 
     const groups: Array<ProxyGroup | null> = [
         {
@@ -225,10 +232,28 @@ export function buildProxyGroups({
             proxies: proxyGroupProxies,
         },
         {
-            name: PROXY_GROUPS.ASIA_MEDIA,
-            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/streamingcn.png`,
+            name: PROXY_GROUPS.HK_MEDIA,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/hk.png`,
             type: "select",
-            proxies: proxyGroupProxies,
+            proxies: buildRegionalMediaProxies(["香港", "台湾", "新加坡", "日本", "美国"]),
+        },
+        {
+            name: PROXY_GROUPS.TW_MEDIA,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/tw.png`,
+            type: "select",
+            proxies: buildRegionalMediaProxies(["台湾", "香港", "日本", "新加坡", "美国"]),
+        },
+        {
+            name: PROXY_GROUPS.JP_MEDIA,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/jp.png`,
+            type: "select",
+            proxies: buildRegionalMediaProxies(["日本", "韩国", "新加坡", "美国", "香港", "台湾"]),
+        },
+        {
+            name: PROXY_GROUPS.KR_MEDIA,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/kr.png`,
+            type: "select",
+            proxies: buildRegionalMediaProxies(["韩国", "日本", "新加坡", "美国", "香港", "台湾"]),
         },
         {
             name: PROXY_GROUPS.DOMESTIC_SERVICES,
