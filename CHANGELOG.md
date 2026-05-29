@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.1](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.0...src-v3.0.1) (2026-05-29)
+
+
+### Bug Fixes
+
+- Remove hardcoded aliyun and ssh routing ([961a85b](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/961a85b994e40e19b254d1aa1e59c31d1b259bec))
 ## [3.0.0](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v2.4.5...src-v3.0.0) (2026-05-29)
 
 
