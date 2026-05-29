@@ -1,4 +1,4 @@
-import { PROXY_GROUPS } from "./constants";
+import { BUILTIN_DIRECT, PROXY_GROUPS } from "./constants";
 import { buildList } from "./utils";
 import type { BaseLists, BuildBaseListsInput } from "./types";
 
@@ -28,25 +28,7 @@ export function buildBaseLists({
         countryGroupNames,
         lowCost && PROXY_GROUPS.LOW_COST,
         PROXY_GROUPS.MANUAL,
-        "DIRECT"
-    );
-
-    const defaultProxies = buildList(
-        PROXY_GROUPS.SELECT,
-        landing && PROXY_GROUPS.LANDING,
-        countryGroupNames,
-        lowCost && PROXY_GROUPS.LOW_COST,
-        PROXY_GROUPS.MANUAL,
-        PROXY_GROUPS.DIRECT
-    );
-
-    const defaultProxiesDirect = buildList(
-        PROXY_GROUPS.DIRECT,
-        landing && PROXY_GROUPS.LANDING,
-        countryGroupNames,
-        lowCost && PROXY_GROUPS.LOW_COST,
-        PROXY_GROUPS.SELECT,
-        PROXY_GROUPS.MANUAL
+        BUILTIN_DIRECT
     );
 
     const defaultFallback = buildList(
@@ -54,18 +36,16 @@ export function buildBaseLists({
         countryGroupNames,
         lowCost && PROXY_GROUPS.LOW_COST,
         PROXY_GROUPS.MANUAL,
-        "DIRECT"
+        BUILTIN_DIRECT
     );
 
     const frontProxySelector = buildList(
         countryGroupNames,
-        "DIRECT",
+        BUILTIN_DIRECT,
         !regexFilter && nonLandingNodes
     );
 
     return {
-        defaultProxies,
-        defaultProxiesDirect,
         defaultSelector,
         defaultFallback,
         frontProxySelector,

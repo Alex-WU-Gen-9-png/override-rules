@@ -23,7 +23,7 @@ https://github.com/powerfullz/override-rules
 源码已迁移至 `src/*.ts`。
 */
 
-import { CDN_URL, PROXY_GROUPS } from "./constants";
+import { BUILTIN_DIRECT, CDN_URL, PROXY_GROUPS } from "./constants";
 import { buildFeatureFlags } from "./args";
 import { buildCountryProxyGroups, buildProxyGroups } from "./proxy_groups";
 import {
@@ -93,13 +93,7 @@ function main(config: ClashConfig): ClashConfig {
         ? parseNodesByLanding(config)
         : { landingNodes: [], nonLandingNodes: [] };
 
-    const {
-        defaultProxies,
-        defaultProxiesDirect,
-        defaultSelector,
-        defaultFallback,
-        frontProxySelector,
-    } = buildBaseLists({
+    const { defaultSelector, defaultFallback, frontProxySelector } = buildBaseLists({
         landing,
         lowCostNodes,
         countryGroupNames,
@@ -119,18 +113,15 @@ function main(config: ClashConfig): ClashConfig {
     const proxyGroups = buildProxyGroups({
         landing,
         regexFilter,
-        countries,
         countryProxyGroups,
         lowCostNodes,
         landingNodes,
-        defaultProxies,
-        defaultProxiesDirect,
         defaultSelector,
         defaultFallback,
         frontProxySelector,
     });
 
-    const globalProxies = proxyGroups.map((item) => String(item.name));
+    const globalProxies = [...proxyGroups.map((item) => String(item.name)), BUILTIN_DIRECT];
     proxyGroups.push({
         name: PROXY_GROUPS.GLOBAL,
         icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Global.png`,

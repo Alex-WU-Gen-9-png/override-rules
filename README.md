@@ -4,8 +4,8 @@
 
 本仓库为 Mihomo/Substore 设计，提供高效、灵活的覆写规则（**不建议用于 Stash**）。核心特色如下：
 
-* 集成 [SukkaW/Surge](https://github.com/SukkaW/Surge) 与 [217heidai/adblockfilters](https://github.com/217heidai/adblockfilters) 等优质规则，兼容性强，覆盖面广。
-* 针对 Truth Social、E-Hentai、TikTok、加密货币等场景，新增专用分流规则，满足多样化需求。
+* 集成 [SukkaW/Surge](https://github.com/SukkaW/Surge)、[blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) 与 [217heidai/adblockfilters](https://github.com/217heidai/adblockfilters) 等优质规则，兼容性强，覆盖面广。
+* 按逻辑类型生成可在 WebUI/GUI 中切换的策略组，覆盖 AI、媒体、社交、开发、生产力、下载、游戏、金融加密、广告与隐私防护等场景。
 * 精简冗余，结构清晰，维护便捷。
 * 深度融合 [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat) GeoSite/GeoIP，分流更精准。
 * IP 规则默认添加 `no-resolve`，有效减少本地 DNS 解析，提升速度与隐私。
@@ -71,6 +71,8 @@
 *   `panelport`：MetaXD 面板控制端口，仅在 `full=true` 时生效（默认 9999）
 *   `panelsecret`：MetaXD 面板访问密码，仅在 `full=true` 时生效（默认空；包含特殊字符时请先 URL Encode）
 
+逐服务或逐类别的分流开关不通过 JS URL 参数控制。导入配置后，直接在 Mihomo 客户端的 WebUI/GUI 中切换对应逻辑策略组即可，例如把「AI服务」临时改为「DIRECT」，或把「国内应用」改为某个地区节点。
+
 [^landing]: 注意在默认的枚举模式下，如果没有符合条件的落地节点（e.g 名称中带有「家宽」、「商宽」、「落地」等关键词的节点），内核会无法启动。
 [^quic]: 默认屏蔽了 QUIC 流量防止节点 UDP 性能不佳影响上网体验，如果确信节点质量良好，建议设置为 true。
 [^webrtc]: 默认强制走代理时，如果所选代理不支持 UDP，部分浏览器实时音视频、P2P 或在线会议场景会降级或不可用；确实需要按原始规则处理 WebRTC 时可以显式设置为 `true`。
@@ -127,17 +129,36 @@ https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&t
 | MMDB 数据库 | `https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb` |
 | ASN 数据库 | `https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb` |
 
-### 关于部分特殊代理组的说明
+### 关于 GUI 逻辑策略组的说明
 
-**静态资源**：包含所有常见静态资源 CDN 域名、对象存储域名。大部分网站的静态资源（如图片、视频、音频、字体、JS、CSS）都有独立域名、不设置风控措施、不设置鉴权，这些静态资源可以使用 IP 不一定干净（例如 IDC 类 IP）、但是带宽更大、延时更低、而且有和大部分主流 CDN（如 Cloudflare、Akamai、Fastly、EdgeCast）在 IXP 有互联的网络出口。一般就实践经验来看，在正常上网中这部分域名产生的流量占据约 70% 左右。如果你在使用商业性质的远端策略服务提供商、且该服务上提供了低倍率节点，你可以将这部分域名分流至低倍率节点以节省流量。[^fn1]
+配置默认生成以下可见逻辑策略组。每个组都可以在 WebUI/GUI 中临时改走 `选择代理`、地区节点、`低倍率节点`、`手动选择` 或 Mihomo 内置 `DIRECT`；其中拦截类使用 `REJECT` / `REJECT-DROP` / `DIRECT`。
+
+| 策略组 | 默认 | 用途 |
+| :--- | :--- | :--- |
+| 广告拦截 | `REJECT` | 轻量广告过滤与补充广告规则，默认启用 `AdvertisingLite`，不默认启用全量 `Advertising` |
+| 隐私防护 | `REJECT` | 搜狗输入回传、HTTPDNS 等隐私风险规则 |
+| AI服务 | `选择代理` | OpenAI、Gemini、Claude、Copilot、Apple Intelligence 等 |
+| 海外流媒体 | `选择代理` | Netflix、YouTube、Disney+、Spotify、TikTok、Twitch 等 |
+| 港台日韩媒体 | `选择代理` | Bahamut、BiliBili Intl、Abema、ViuTV、Hulu JP 等区域媒体 |
+| 国内应用 | `DIRECT` | 国内应用、Apple CN、Microsoft CN、Google Play CN、阿里云/钉钉等可切换直连业务 |
+| 社交通讯 | `选择代理` | Telegram、Twitter/X、Facebook、Instagram、Discord、Reddit、Line 等 |
+| 开发服务 | `选择代理` | GitHub、GitLab、Docker、npm、PyPI、JetBrains、Vercel、Cloudflare 等 |
+| 平台与生产力 | `选择代理` | Apple、Microsoft、Google、OneDrive、Google Drive、Dropbox、Notion、Slack、Teams 等 |
+| 下载与静态资源 | `选择代理` | CDN、对象存储、软件下载、Steam 下载修正、PikPak 等 |
+| 游戏服务 | `选择代理` | Steam、Xbox、PlayStation、Nintendo、Epic、Blizzard、Riot、HoYoverse 等 |
+| 金融加密 | `选择代理` | 加密货币、交易所、PayPal、Stripe 等 |
+
+不会再生成可见的「直连」策略组。私网/LAN、路由器、本地发现、连接检测、ZJU 内网等硬直连规则会直接写入 Mihomo 内置 `DIRECT`，避免出现「直连组里还能选代理」的反直觉行为。`ZJU` 组仍保留给更宽泛的校园/IP 认证资源，`国内应用` 这类可切换直连业务则保留为可见策略组，默认选 `DIRECT`，需要时可以在 GUI 里切到代理。
+
+**下载与静态资源**：包含常见 CDN 域名、对象存储域名以及下载域名。大部分网站的静态资源（如图片、视频、音频、字体、JS、CSS）都有独立域名、不设置风控措施、不设置鉴权，这些静态资源可以使用 IP 不一定干净（例如 IDC 类 IP）、但是带宽更大、延时更低、而且有和大部分主流 CDN（如 Cloudflare、Akamai、Fastly、EdgeCast）在 IXP 有互联的网络出口。一般就实践经验来看，在正常上网中这部分域名产生的流量占据约 70% 左右。如果你在使用商业性质的远端策略服务提供商、且该服务上提供了低倍率节点，你可以将这部分域名分流至低倍率节点以节省流量。[^fn1]
 
 [^fn1]: 来源：[我有特别的 Surge 配置和使用技巧](https://blog.skk.moe/post/i-have-my-unique-surge-setup/)
 
-**搜狗输入**：默认放行，作用是避免搜狗输入法将你输入的每一个字符自动收集并通过`get.sogou.com/q`等域名回传。隐私担忧者可以将其设置为`REJECT`，开启后会影响搜狗输入法账号同步、词库更新、问题反馈，但语音输入等其他功能可以正常使用。
+**搜狗输入**：已并入「隐私防护」，默认 `REJECT`，用于避免搜狗输入法将输入内容通过 `get.sogou.com/q` 等域名回传。如果需要账号同步、词库更新或问题反馈，可在 GUI 中将「隐私防护」切为 `DIRECT`。
 
-~~**Play 商店修复**：~~ 修复国行设备因使用`services.googleapis.cn`域名导致的 Google Play 下载应用时的「等待中…」问题。详见：[「Google Play 商店的国内 CDN：从密码学入门到分流策略优化」](https://blog.l3zc.com/2025/03/chinese-cdn-used-by-playstore/)，已经是默认行为。
+~~**Play 商店修复**：~~ 修复国行设备因使用`services.googleapis.cn`域名导致的 Google Play 下载应用时的「等待中…」问题。详见：[「Google Play 商店的国内 CDN：从密码学入门到分流策略优化」](https://blog.l3zc.com/2025/03/chinese-cdn-used-by-playstore/)，已经并入「国内应用」，默认 `DIRECT`。
 
-~~**Steam 修复**：~~ 用于让 Steam 客户端调用国内 CDN 及 P2P 网络下载，节省大量流量，已经是默认行为。
+~~**Steam 修复**：~~ 用于让 Steam 客户端调用国内 CDN 及 P2P 网络下载，节省大量流量，已经并入「下载与静态资源」。
 
 ### 关于链式代理的说明
 

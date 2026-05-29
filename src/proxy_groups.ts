@@ -1,4 +1,7 @@
 import {
+    BUILTIN_DIRECT,
+    BUILTIN_REJECT,
+    BUILTIN_REJECT_DROP,
     CDN_URL,
     LANDING_NODE_MATCHER,
     LOW_COST_NODE_MATCHER,
@@ -12,7 +15,7 @@ import type {
     CountryInfoItem,
     ProxyGroup,
 } from "./types";
-import { isNotNull } from "./utils";
+import { buildList, isNotNull } from "./utils";
 
 const PROXY_TEST_URL = "http://cp.cloudflare.com/generate_204";
 
@@ -132,19 +135,33 @@ export function buildCountryProxyGroups({
 export function buildProxyGroups({
     landing,
     regexFilter,
-    countries,
     countryProxyGroups,
     lowCostNodes,
     landingNodes,
-    defaultProxies,
-    defaultProxiesDirect,
     defaultSelector,
     defaultFallback,
     frontProxySelector,
 }: BuildProxyGroupsInput): ProxyGroup[] {
-    const hasTW = countries.includes("台湾");
-    const hasHK = countries.includes("香港");
-    const hasUS = countries.includes("美国");
+    const regionalProxyGroups = countryProxyGroups.map((group) => group.name);
+    const hasLowCost = lowCostNodes.length > 0 || regexFilter;
+    const lowCostGroup = hasLowCost ? PROXY_GROUPS.LOW_COST : false;
+    const proxyGroupProxies = buildList(
+        PROXY_GROUPS.SELECT,
+        landing && PROXY_GROUPS.LANDING,
+        regionalProxyGroups,
+        lowCostGroup,
+        PROXY_GROUPS.MANUAL,
+        BUILTIN_DIRECT
+    );
+    const domesticGroupProxies = buildList(
+        BUILTIN_DIRECT,
+        PROXY_GROUPS.SELECT,
+        landing && PROXY_GROUPS.LANDING,
+        regionalProxyGroups,
+        lowCostGroup,
+        PROXY_GROUPS.MANUAL
+    );
+    const rejectGroupProxies = [BUILTIN_REJECT, BUILTIN_REJECT_DROP, BUILTIN_DIRECT];
 
     const groups: Array<ProxyGroup | null> = [
         {
@@ -184,150 +201,88 @@ export function buildProxyGroups({
               }
             : null,
         {
-            name: PROXY_GROUPS.STATIC_RESOURCES,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Cloudflare.png`,
+            name: PROXY_GROUPS.AD_BLOCK,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/adblock.png`,
             type: "select",
-            proxies: defaultProxies,
+            proxies: rejectGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.PRIVACY,
+            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Lock.png`,
+            type: "select",
+            proxies: rejectGroupProxies,
         },
         {
             name: PROXY_GROUPS.AI_SERVICE,
             icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png`,
             type: "select",
-            proxies: defaultProxies,
+            proxies: proxyGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.OVERSEAS_MEDIA,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/streaming.png`,
+            type: "select",
+            proxies: proxyGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.ASIA_MEDIA,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/streamingcn.png`,
+            type: "select",
+            proxies: proxyGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.DOMESTIC_SERVICES,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/china.png`,
+            type: "select",
+            proxies: domesticGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.SOCIAL,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/telegram.png`,
+            type: "select",
+            proxies: proxyGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.DEVELOPER,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/github.png`,
+            type: "select",
+            proxies: proxyGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.PRODUCTIVITY,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/microsoft.png`,
+            type: "select",
+            proxies: proxyGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.DOWNLOAD_STATIC,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/static.png`,
+            type: "select",
+            proxies: proxyGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.GAME,
+            icon: `${CDN_URL}/gh/blackmatrix7/ios_rule_script@master/icon/color/game.png`,
+            type: "select",
+            proxies: proxyGroupProxies,
+        },
+        {
+            name: PROXY_GROUPS.FINANCE,
+            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Cryptocurrency_1.png`,
+            type: "select",
+            proxies: proxyGroupProxies,
         },
         {
             name: PROXY_GROUPS.ZJU,
             icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Bookpedia.png`,
             type: "select",
-            proxies: ["DIRECT"],
-        },
-        {
-            name: PROXY_GROUPS.CRYPTO,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Cryptocurrency_1.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.APPLE,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Apple_2.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.GOOGLE,
-            icon: `${CDN_URL}/gh/Orz-3/mini@master/Color/Google.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.MICROSOFT,
-            icon: `${CDN_URL}/gh/powerfullz/override-rules@master/icons/Microsoft_Copilot.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.XBOX,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Xbox.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.GITHUB,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/GitHub.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.BILIBILI,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/bilibili.png`,
-            type: "select",
-            proxies:
-                hasTW && hasHK
-                    ? [PROXY_GROUPS.DIRECT, "台湾节点", "香港节点"]
-                    : defaultProxiesDirect,
-        },
-        {
-            name: PROXY_GROUPS.BAHAMUT,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Bahamut.png`,
-            type: "select",
-            proxies: hasTW
-                ? ["台湾节点", PROXY_GROUPS.SELECT, PROXY_GROUPS.MANUAL, PROXY_GROUPS.DIRECT]
-                : defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.YOUTUBE,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/YouTube.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.NETFLIX,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Netflix.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.TIKTOK,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/TikTok.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.SPOTIFY,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Spotify.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.TELEGRAM,
-            icon: `${CDN_URL}/gh/powerfullz/override-rules@master/icons/Telegram.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.TWITTER,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Twitter.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.WEIBO,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Weibo.png`,
-            type: "select",
-            "include-all": true,
-            proxies: defaultProxiesDirect,
-        },
-        {
-            name: PROXY_GROUPS.TRUTH_SOCIAL,
-            icon: `${CDN_URL}/gh/powerfullz/override-rules@master/icons/Truth_Social.png`,
-            type: "select",
-            proxies: hasUS
-                ? ["美国节点", PROXY_GROUPS.SELECT, PROXY_GROUPS.MANUAL]
-                : defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.EHENTAI,
-            icon: `${CDN_URL}/gh/powerfullz/override-rules@master/icons/Ehentai.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.PIKPAK,
-            icon: `${CDN_URL}/gh/powerfullz/override-rules@master/icons/PikPak.png`,
-            type: "select",
-            proxies: defaultProxies,
-        },
-        {
-            name: PROXY_GROUPS.SOGOU_INPUT,
-            icon: `${CDN_URL}/gh/powerfullz/override-rules@master/icons/Sougou.png`,
-            type: "select",
-            proxies: [PROXY_GROUPS.DIRECT, "REJECT"],
+            proxies: [BUILTIN_DIRECT, PROXY_GROUPS.SELECT, PROXY_GROUPS.MANUAL],
         },
         {
             name: PROXY_GROUPS.SSH,
             icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Server.png`,
             type: "select",
-            proxies: defaultProxies,
+            proxies: proxyGroupProxies,
         },
         {
             name: PROXY_GROUPS.AUTO,
@@ -347,19 +302,7 @@ export function buildProxyGroups({
             interval: 60,
             tolerance: 20,
         },
-        {
-            name: PROXY_GROUPS.DIRECT,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Direct.png`,
-            type: "select",
-            proxies: ["DIRECT", PROXY_GROUPS.SELECT],
-        },
-        {
-            name: PROXY_GROUPS.AD_BLOCK,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/AdBlack.png`,
-            type: "select",
-            proxies: ["REJECT", "REJECT-DROP", PROXY_GROUPS.DIRECT],
-        },
-        lowCostNodes.length > 0 || regexFilter
+        hasLowCost
             ? {
                   name: PROXY_GROUPS.LOW_COST,
                   icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Lab.png`,

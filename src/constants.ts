@@ -4,40 +4,32 @@ import { createCaseInsensitiveNodeMatcher } from "./utils";
 export const NODE_SUFFIX = "节点";
 export const CDN_URL = "https://cdn.jsdelivr.net";
 export const SELF_CDN_URL = `${CDN_URL}/gh/Alex-WU-Gen-9-png/override-rules@main`;
+export const BUILTIN_DIRECT = "DIRECT";
+export const BUILTIN_REJECT = "REJECT";
+export const BUILTIN_REJECT_DROP = "REJECT-DROP";
 
 export const PROXY_GROUPS = {
     SELECT: "选择代理",
     MANUAL: "手动选择",
     AUTO: "自动选择",
     FALLBACK: "故障转移",
-    DIRECT: "直连",
     LANDING: "落地节点",
     LOW_COST: "低倍率节点",
     FRONT_PROXY: "前置代理",
-    STATIC_RESOURCES: "静态资源",
-    AI_SERVICE: "AI服务",
-    ZJU: "ZJU",
-    CRYPTO: "加密货币",
-    APPLE: "苹果服务",
-    GOOGLE: "谷歌服务",
-    MICROSOFT: "微软服务",
-    BILIBILI: "哔哩哔哩",
-    BAHAMUT: "巴哈姆特",
-    XBOX: "Xbox",
-    GITHUB: "Github",
-    YOUTUBE: "Youtube",
-    NETFLIX: "Netflix",
-    TIKTOK: "TikTok",
-    SPOTIFY: "Spotify",
-    EHENTAI: "E-Hentai",
-    TELEGRAM: "Telegram",
-    TRUTH_SOCIAL: "Truth Social",
-    TWITTER: "Twitter",
-    WEIBO: "新浪微博",
-    PIKPAK: "PikPak网盘",
-    SSH: "SSH",
-    SOGOU_INPUT: "搜狗输入法",
     AD_BLOCK: "广告拦截",
+    PRIVACY: "隐私防护",
+    AI_SERVICE: "AI服务",
+    OVERSEAS_MEDIA: "海外流媒体",
+    ASIA_MEDIA: "港台日韩媒体",
+    DOMESTIC_SERVICES: "国内应用",
+    SOCIAL: "社交通讯",
+    DEVELOPER: "开发服务",
+    PRODUCTIVITY: "平台与生产力",
+    DOWNLOAD_STATIC: "下载与静态资源",
+    GAME: "游戏服务",
+    FINANCE: "金融加密",
+    ZJU: "ZJU",
+    SSH: "SSH",
     GLOBAL: "GLOBAL",
 } as const;
 

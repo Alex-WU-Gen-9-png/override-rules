@@ -1,0 +1,39 @@
+# NAME: ZJUInternal
+# SOURCE: ruleset/ZJU.list
+# UPDATED: 2026-05-29
+# NOTE: Hard-direct ZJU campus domains and internal address ranges.
+
+DOMAIN-KEYWORD,cc98
+DOMAIN-KEYWORD,nexushd
+DOMAIN-SUFFIX,icsr.wiki
+DOMAIN-SUFFIX,zju.edu.cn
+DOMAIN-SUFFIX,zju6.edu.cn
+DOMAIN-SUFFIX,zjusec.com
+DOMAIN-SUFFIX,zjusec.net
+DOMAIN-SUFFIX,zjusec.top
+DOMAIN-SUFFIX,zjusct.io
+DOMAIN-SUFFIX,zjueva.net
+DOMAIN-SUFFIX,zjuqsc.com
+DOMAIN-SUFFIX,koala-studio.org.cn
+
+IP-CIDR,10.0.0.0/8,no-resolve
+IP-CIDR,58.196.192.0/19,no-resolve
+IP-CIDR,58.196.224.0/20,no-resolve
+IP-CIDR,58.200.100.0/24,no-resolve
+IP-CIDR,210.32.0.0/20,no-resolve
+IP-CIDR,210.32.128.0/19,no-resolve
+IP-CIDR,210.32.160.0/21,no-resolve
+IP-CIDR,210.32.168.0/22,no-resolve
+IP-CIDR,210.32.172.0/23,no-resolve
+IP-CIDR,210.32.174.0/24,no-resolve
+IP-CIDR,210.32.176.0/20,no-resolve
+IP-CIDR,222.205.0.0/17,no-resolve
+IP-CIDR,210.32.174.2/32,no-resolve
+IP-CIDR,61.175.193.50/32,no-resolve
+IP-CIDR,124.160.105.200/32,no-resolve
+IP-CIDR,218.108.88.254/32,no-resolve
+IP-CIDR,210.32.129.102/32,no-resolve
+IP-CIDR,210.32.174.64/32,no-resolve
+IP-CIDR,210.32.3.87/32,no-resolve
+IP-CIDR6,2001:256:100::/48,no-resolve
+IP-CIDR6,2402:4b80::/32,no-resolve

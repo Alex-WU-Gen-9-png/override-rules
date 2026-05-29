@@ -214,8 +214,6 @@ export interface CaseInsensitiveNodeMatcher {
 }
 
 export interface BaseLists {
-    defaultProxies: string[];
-    defaultProxiesDirect: string[];
     defaultSelector: string[];
     defaultFallback: string[];
     frontProxySelector: string[];
@@ -241,12 +239,9 @@ export interface BuildCountryProxyGroupsInput {
 export interface BuildProxyGroupsInput {
     landing: boolean;
     regexFilter: boolean;
-    countries: string[];
     countryProxyGroups: ProxyGroup[];
     lowCostNodes: string[];
     landingNodes: string[];
-    defaultProxies: string[];
-    defaultProxiesDirect: string[];
     defaultSelector: string[];
     defaultFallback: string[];
     frontProxySelector: string[];

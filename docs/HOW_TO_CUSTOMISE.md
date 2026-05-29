@@ -44,6 +44,8 @@ const FEATURE_FLAG_DEFAULTS = {
 
 如果你需要调整生成的代理组（Proxy Groups），或需要添加新的国家/地区节点分组，请编辑 `src/constants.ts` 和 `src/proxy_groups.ts`。
 
+默认配置把业务分流收敛为一组可在 WebUI/GUI 中控制的逻辑策略组，例如「AI服务」「海外流媒体」「国内应用」「开发服务」「下载与静态资源」等。硬直连不再通过可见的「直连」策略组表达，而是直接使用 Mihomo 内置 `DIRECT`；因此如果只是想让某类业务临时直连，优先在 GUI 中把对应逻辑组切到 `DIRECT`。
+
 **添加新的代理组名称：**
 
 ```typescript
@@ -57,16 +59,17 @@ export const PROXY_GROUPS = {
 **定义新的代理组：**
 
 ```ts
-export const ruleProviders = {
-    // ...
-        {
-            name: PROXY_GROUPS.MY_CUSTOM_GROUP,
-            icon: `图标链接`,
-            type: "select",
-            proxies: defaultProxies,    // 可以自行在 selectors.ts 中定制
-        },
-    // ...
-}
+// src/proxy_groups.ts
+const groups = [
+    // ... 已有代理组 ...
+    {
+        name: PROXY_GROUPS.MY_CUSTOM_GROUP,
+        icon: `图标链接`,
+        type: "select",
+        proxies: proxyGroupProxies, // 也可以自行定义候选项
+    },
+    // ... 已有代理组 ...
+];
 ```
 
 ## 调整国家/地区匹配规则
@@ -89,13 +92,13 @@ export const countriesMeta: Record<string, CountryMeta> = {
 
 ## 自定义分流规则 (`rule-providers`和`rules`)
 
-若需要添加新的 Rule Provider（例如引入其他 GitHub 仓库或第三方链接的规则集），请在 `src/rule_providers.ts` 中配置：
+若需要添加新的 Rule Provider（例如引入其他 GitHub 仓库或第三方链接的规则集），请优先在 `src/rule_catalog.ts` 中配置。`src/rule_providers.ts` 会从 catalog 自动生成 provider 表，`src/rules.ts` 会按阶段把 catalog 中的项目组装成 `RULE-SET` 规则。
 
 ```typescript
-// src/rule_providers.ts
-export const ruleProviders = {
-    // ...
-    exampleProvider: {
+// src/rule_catalog.ts
+catalogItem(
+    "exampleProvider",
+    {
         type: "http",
         behavior: "domain",
         format: "text",
@@ -103,10 +106,23 @@ export const ruleProviders = {
         url: "https://example.com/custom_rules.txt",
         path: "./ruleset/MyCustomProvider.txt",
     },
-};
+    PROXY_GROUPS.MY_CUSTOM_GROUP,
+    "developer"
+);
 ```
 
-接着，在 `src/rules.ts` 中将流量分配至对应的代理组：
+如果你只想直接维护 provider 对象，也可以使用 catalog helper 保持格式一致：
+
+```typescript
+httpProvider({
+    behavior: "domain",
+    format: "text",
+    url: "https://example.com/custom_rules.txt",
+    path: "./ruleset/MyCustomProvider.txt",
+});
+```
+
+如果不想进入 catalog 的阶段组装，也可以在 `src/rules.ts` 中直接将流量分配至对应的代理组：
 
 ```typescript
 // src/rules.ts
@@ -118,6 +134,8 @@ const baseRules = [
     // 如果没有在 constants 中添加新代理组，也可以直接用 PROXY_GROUPS.SELECT 等
 ];
 ```
+
+需要硬直连或硬拒绝时，请从 `src/constants.ts` 引入 `BUILTIN_DIRECT`、`BUILTIN_REJECT` 或 `BUILTIN_REJECT_DROP`，而不是新增一个可见的「直连」代理组。
 
 ### 使用 GeoSite 数据库
 
