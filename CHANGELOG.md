@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.2](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.1...src-v3.0.2) (2026-05-29)
+
+
+### Bug Fixes
+
+- Regionalize media routing groups ([d267d47](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/d267d47966bc633bca3a9c183f64bc57f57544fc))
 ## [3.0.1](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.0...src-v3.0.1) (2026-05-29)
 
 
