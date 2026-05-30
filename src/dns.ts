@@ -17,7 +17,6 @@ const FAKE_IP_FILTER = [
     "geosite:private",
     "geosite:connectivity-check",
     "geosite:cn",
-    "+.zju.edu.cn",
     ...LOCAL_DOMAIN_FAKE_IP_FILTER,
     "Mijia Cloud",
     "dlg.io.mi.com",
