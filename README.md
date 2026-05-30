@@ -116,7 +116,7 @@ https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&p
 https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&tun=true&lan=true
 ```
 
-说明：`allow-lan` 与 `bind-address` 只影响 HTTP/SOCKS/mixed 代理端口的局域网访问；局域网透明代理主要依赖 TUN 自动路由/重定向、DNS 监听，以及客户端侧将网关和 DNS 指向运行 Mihomo 的设备。为兼容 ZJU 等使用 `10.0.0.0/8` 的内网资源，`lan=true` 时不会把 `10.0.0.0/8` 从 TUN 路由中排除。常见内网域名后缀（如 `.lan`、`.local`、`.home.arpa`）默认会加入 `fake-ip-filter`，避免客户端用域名访问内网设备时拿到 fake-ip。
+说明：`allow-lan` 与 `bind-address` 只影响 HTTP/SOCKS/mixed 代理端口的局域网访问；局域网透明代理主要依赖 TUN 自动路由/重定向、DNS 监听，以及客户端侧将网关和 DNS 指向运行 Mihomo 的设备。为兼容 ZJU 等使用 `10.0.0.0/8` 的内网资源，`lan=true` 时不会把 `10.0.0.0/8` 从 TUN 路由中排除。常见内网域名后缀（如 `.lan`、`.local`、`.home.arpa`）默认会加入 `fake-ip-filter`，避免客户端用域名访问内网设备时拿到 fake-ip；普通国内域名不再加入 fake-ip 例外，以便国内应用和 ZJU 域名也能稳定按域名规则分流。
 
 ### 关于各 Mihomo 客户端覆盖 GeoIP/GeoSite 下载地址的说明
 
