@@ -1,20 +1,9 @@
 # NAME: ZJUInternal
 # SOURCE: ruleset/ZJU.list
 # UPDATED: 2026-05-29
-# NOTE: Hard-direct ZJU campus domains and internal address ranges.
-
-DOMAIN-KEYWORD,cc98
-DOMAIN-KEYWORD,nexushd
-DOMAIN-SUFFIX,icsr.wiki
-DOMAIN-SUFFIX,zju.edu.cn
-DOMAIN-SUFFIX,zju6.edu.cn
-DOMAIN-SUFFIX,zjusec.com
-DOMAIN-SUFFIX,zjusec.net
-DOMAIN-SUFFIX,zjusec.top
-DOMAIN-SUFFIX,zjusct.io
-DOMAIN-SUFFIX,zjueva.net
-DOMAIN-SUFFIX,zjuqsc.com
-DOMAIN-SUFFIX,koala-studio.org.cn
+# NOTE: Hard-direct only ZJU campus address ranges. ZJU domains stay in the
+# visible ZJU policy group so GUI users can switch them when local IPv6/DNS
+# paths are slow.
 
 IP-CIDR,10.0.0.0/8,no-resolve
 IP-CIDR,58.196.192.0/19,no-resolve
@@ -36,4 +25,5 @@ IP-CIDR,210.32.129.102/32,no-resolve
 IP-CIDR,210.32.174.64/32,no-resolve
 IP-CIDR,210.32.3.87/32,no-resolve
 IP-CIDR6,2001:256:100::/48,no-resolve
+IP-CIDR6,2001:da8:e000::/48,no-resolve
 IP-CIDR6,2402:4b80::/32,no-resolve

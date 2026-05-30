@@ -16,6 +16,7 @@ DOMAIN-SUFFIX,zjusct.io
 DOMAIN-SUFFIX,zjueva.net
 DOMAIN-SUFFIX,zjuqsc.com
 DOMAIN-SUFFIX,koala-studio.org.cn
+DOMAIN-SUFFIX,vipa.dev
 
 # [校内 IP 段]
 IP-CIDR,10.0.0.0/8,no-resolve
@@ -38,6 +39,7 @@ IP-CIDR,210.32.129.102/32,no-resolve
 IP-CIDR,210.32.174.64/32,no-resolve
 IP-CIDR,210.32.3.87/32,no-resolve
 IP-CIDR6,2001:256:100::/48,no-resolve
+IP-CIDR6,2001:da8:e000::/48,no-resolve
 IP-CIDR6,2402:4b80::/32,no-resolve
 
 # [通过 IP 认证的学术资源]
