@@ -10,10 +10,10 @@ const LOCAL_DOMAIN_FAKE_IP_FILTER = [
 ];
 
 /**
- * 默认的 fake-ip 过滤域名列表。
+ * 基础 fake-ip 过滤域名列表。
  * 这些域名不会被 fake-ip 机制代理。
  */
-const FAKE_IP_FILTER = [
+const BASE_FAKE_IP_FILTER = [
     "geosite:private",
     "geosite:connectivity-check",
     ...LOCAL_DOMAIN_FAKE_IP_FILTER,
@@ -23,6 +23,8 @@ const FAKE_IP_FILTER = [
     "+.icloud.com",
     "+.push.apple.com",
 ];
+
+const LAN_COMPAT_FAKE_IP_FILTER = ["geosite:cn", "+.zju.edu.cn", ...BASE_FAKE_IP_FILTER];
 
 /**
  * 嗅探器配置。
@@ -116,7 +118,7 @@ export function buildDns({ fakeIPEnabled, ipv6Enabled, lanEnabled }: BuildDnsInp
             mode: "fake-ip",
             ipv6Enabled,
             lanEnabled,
-            fakeIpFilter: FAKE_IP_FILTER,
+            fakeIpFilter: lanEnabled ? LAN_COMPAT_FAKE_IP_FILTER : BASE_FAKE_IP_FILTER,
         });
     }
     return buildDnsConfig({ mode: "redir-host", ipv6Enabled, lanEnabled });
