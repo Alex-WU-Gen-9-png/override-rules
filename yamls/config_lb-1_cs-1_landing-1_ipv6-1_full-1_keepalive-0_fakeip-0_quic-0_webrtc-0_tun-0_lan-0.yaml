@@ -1,0 +1,1303 @@
+mixed-port: 7890
+redir-port: 7892
+tproxy-port: 7893
+routing-mark: 7894
+allow-lan: true
+bind-address: "*"
+ipv6: true
+mode: rule
+unified-delay: true
+tcp-concurrent: true
+find-process-mode: off
+log-level: info
+geodata-loader: standard
+external-controller: :9999
+external-ui: ui
+external-ui-name: xd
+external-ui-url: https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip
+disable-keep-alive: true
+profile:
+  store-selected: true
+proxy-groups:
+  - name: 选择代理
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png
+    type: select
+    proxies:
+      - 自动选择
+      - 故障转移
+      - 落地节点
+      - 香港节点
+      - 台湾节点
+      - 新加坡节点
+      - 日本节点
+      - 美国节点
+      - 低倍率节点
+      - 手动选择
+      - DIRECT
+  - name: 手动选择
+    icon: https://cdn.jsdelivr.net/gh/shindgewongxj/WHATSINStash@master/icon/select.png
+    include-all: true
+    type: select
+  - name: 前置代理
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Area.png
+    type: select
+    include-all: true
+    exclude-filter: (?i)家宽|家庭宽带|商宽|商业宽带|星链|Starlink|落地
+    proxies:
+      - 香港节点
+      - 台湾节点
+      - 新加坡节点
+      - 日本节点
+      - 美国节点
+      - DIRECT
+  - name: 落地节点
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Airport.png
+    type: select
+    include-all: true
+    filter: (?i)家宽|家庭宽带|商宽|商业宽带|星链|Starlink|落地
+  - name: 广告拦截
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/adblock.png
+    type: select
+    proxies: &a1
+      - REJECT
+      - REJECT-DROP
+      - DIRECT
+  - name: 隐私防护
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Lock.png
+    type: select
+    proxies: *a1
+  - name: AI服务
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png
+    type: select
+    proxies: &a2
+      - 选择代理
+      - 落地节点
+      - 香港节点
+      - 台湾节点
+      - 新加坡节点
+      - 日本节点
+      - 美国节点
+      - 低倍率节点
+      - 手动选择
+      - DIRECT
+  - name: 海外流媒体
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/streaming.png
+    type: select
+    proxies: *a2
+  - name: 香港媒体
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/hk.png
+    type: select
+    proxies:
+      - 香港节点
+      - 台湾节点
+      - 新加坡节点
+      - 日本节点
+      - 美国节点
+  - name: 台湾媒体
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/tw.png
+    type: select
+    proxies:
+      - 台湾节点
+      - 香港节点
+      - 日本节点
+      - 新加坡节点
+      - 美国节点
+  - name: 日本媒体
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/jp.png
+    type: select
+    proxies:
+      - 日本节点
+      - 新加坡节点
+      - 美国节点
+      - 香港节点
+      - 台湾节点
+  - name: 韩国媒体
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/kr.png
+    type: select
+    proxies:
+      - 日本节点
+      - 新加坡节点
+      - 美国节点
+      - 香港节点
+      - 台湾节点
+  - name: 国内应用
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/china.png
+    type: select
+    proxies:
+      - DIRECT
+      - 选择代理
+      - 落地节点
+      - 香港节点
+      - 台湾节点
+      - 新加坡节点
+      - 日本节点
+      - 美国节点
+      - 低倍率节点
+      - 手动选择
+  - name: 社交通讯
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/telegram.png
+    type: select
+    proxies: *a2
+  - name: 开发服务
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/github.png
+    type: select
+    proxies: *a2
+  - name: 平台与生产力
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/microsoft.png
+    type: select
+    proxies: *a2
+  - name: 下载与静态资源
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/static.png
+    type: select
+    proxies: *a2
+  - name: 游戏服务
+    icon: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/icon/color/game.png
+    type: select
+    proxies: *a2
+  - name: 金融加密
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Cryptocurrency_1.png
+    type: select
+    proxies: *a2
+  - name: ZJU
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Bookpedia.png
+    type: select
+    proxies:
+      - DIRECT
+      - 选择代理
+      - 手动选择
+  - name: 自动选择
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    proxies: &a3
+      - 落地节点
+      - 香港节点
+      - 台湾节点
+      - 新加坡节点
+      - 日本节点
+      - 美国节点
+      - 低倍率节点
+      - 手动选择
+      - DIRECT
+    interval: 60
+    tolerance: 20
+  - name: 故障转移
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Available_1.png
+    type: fallback
+    url: http://cp.cloudflare.com/generate_204
+    proxies: *a3
+    interval: 60
+    tolerance: 20
+  - name: 低倍率节点
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Lab.png
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    interval: 60
+    tolerance: 20
+    include-all: true
+    filter: (?i)0\.[0-5]|低倍率|省流|实验性
+  - name: 香港节点
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png
+    url: http://cp.cloudflare.com/generate_204
+    interval: 60
+    tolerance: 20
+    type: load-balance
+    strategy: sticky-sessions
+    include-all: true
+    filter: 香港|港|\b(?:HK|hk)(?:[-_ ]?\d+(?:[-_ ]?[A-Za-z]{2,})?)?\b|Hong
+      Kong|HongKong|hongkong|HONG
+      KONG|HONGKONG|深港|HKG|九龙|Kowloon|新界|沙田|荃湾|葵涌|🇭🇰
+    exclude-filter: (?i)家宽|家庭宽带|商宽|商业宽带|星链|Starlink|落地
+  - name: 台湾节点
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png
+    url: http://cp.cloudflare.com/generate_204
+    interval: 60
+    tolerance: 20
+    type: load-balance
+    strategy: sticky-sessions
+    include-all: true
+    filter: 台|新北|彰化|\b(?:TW|tw)(?:[-_ ]?\d+(?:[-_
+      ]?[A-Za-z]{2,})?)?\b|Taiwan|TAIWAN|TWN|TPE|ROC|🇹🇼|🇼🇸
+    exclude-filter: (?i)家宽|家庭宽带|商宽|商业宽带|星链|Starlink|落地
+  - name: 新加坡节点
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png
+    url: http://cp.cloudflare.com/generate_204
+    interval: 60
+    tolerance: 20
+    type: load-balance
+    strategy: sticky-sessions
+    include-all: true
+    filter: 新加坡|坡|狮城|\b(?:SG|sg)(?:[-_ ]?\d+(?:[-_
+      ]?[A-Za-z]{2,})?)?\b|Singapore|SINGAPORE|SIN|🇸🇬
+    exclude-filter: (?i)家宽|家庭宽带|商宽|商业宽带|星链|Starlink|落地
+  - name: 日本节点
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png
+    url: http://cp.cloudflare.com/generate_204
+    interval: 60
+    tolerance: 20
+    type: load-balance
+    strategy: sticky-sessions
+    include-all: true
+    filter: 日本|川日|东京|大阪|泉日|埼玉|沪日|深日|\b(?:JP|jp)(?:[-_ ]?\d+(?:[-_
+      ]?[A-Za-z]{2,})?)?\b|Japan|JAPAN|JPN|NRT|HND|KIX|TYO|OSA|关西|Kansai|KANSAI|🇯🇵
+    exclude-filter: (?i)家宽|家庭宽带|商宽|商业宽带|星链|Starlink|落地
+  - name: 美国节点
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png
+    url: http://cp.cloudflare.com/generate_204
+    interval: 60
+    tolerance: 20
+    type: load-balance
+    strategy: sticky-sessions
+    include-all: true
+    filter: 美国|美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|纽约|亚特兰大|迈阿密|华盛顿|\b(?:US|us)(?:[-_
+      ]?\d+(?:[-_ ]?[A-Za-z]{2,})?)?\b|United States|UnitedStates|UNITED
+      STATES|USA|America|AMERICA|JFK|EWR|IAD|ATL|ORD|MIA|NYC|LAX|SFO|SEA|DFW|SJC|🇺🇸
+    exclude-filter: (?i)家宽|家庭宽带|商宽|商业宽带|星链|Starlink|落地
+  - name: GLOBAL
+    icon: https://cdn.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png
+    include-all: true
+    type: select
+    proxies:
+      - 选择代理
+      - 手动选择
+      - 前置代理
+      - 落地节点
+      - 广告拦截
+      - 隐私防护
+      - AI服务
+      - 海外流媒体
+      - 香港媒体
+      - 台湾媒体
+      - 日本媒体
+      - 韩国媒体
+      - 国内应用
+      - 社交通讯
+      - 开发服务
+      - 平台与生产力
+      - 下载与静态资源
+      - 游戏服务
+      - 金融加密
+      - ZJU
+      - 自动选择
+      - 故障转移
+      - 低倍率节点
+      - 香港节点
+      - 台湾节点
+      - 新加坡节点
+      - 日本节点
+      - 美国节点
+      - DIRECT
+rule-providers:
+  ZJUInternal:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@main/ruleset/ZJUInternal.list
+    path: ./ruleset/ZJUInternal.list
+  ZJU:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@main/ruleset/ZJU.list
+    path: ./ruleset/ZJU.list
+  Lan:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Lan/Lan_No_Resolve.yaml
+    path: ./ruleset/Lan.yaml
+  ADBlock:
+    type: http
+    behavior: domain
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/217heidai/adblockfilters@main/rules/adblockmihomolite.yaml
+    path: ./ruleset/ADBlock.yaml
+  AdditionalFilter:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@main/ruleset/AdditionalFilter.list
+    path: ./ruleset/AdditionalFilter.list
+  AdvertisingLite:
+    type: http
+    behavior: domain
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/AdvertisingLite/AdvertisingLite_Domain.txt
+    path: ./ruleset/AdvertisingLite_Domain.txt
+  SogouInput:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/sogouinput.txt
+    path: ./ruleset/SogouInput.txt
+  BlockHttpDNS:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/BlockHttpDNS/BlockHttpDNS_No_Resolve.yaml
+    path: ./ruleset/BlockHttpDNS.yaml
+  SukkaAI:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/ai.txt
+    path: ./ruleset/SukkaAI.txt
+  AppleIntelligence:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/apple_intelligence.txt
+    path: ./ruleset/AppleIntelligence.txt
+  OpenAI:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI_No_Resolve.yaml
+    path: ./ruleset/OpenAI.yaml
+  Gemini:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Gemini/Gemini_No_Resolve.yaml
+    path: ./ruleset/Gemini.yaml
+  Claude:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Claude/Claude_No_Resolve.yaml
+    path: ./ruleset/Claude.yaml
+  Copilot:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Copilot/Copilot_No_Resolve.yaml
+    path: ./ruleset/Copilot.yaml
+  Civitai:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Civitai/Civitai_No_Resolve.yaml
+    path: ./ruleset/Civitai.yaml
+  StreamUS:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/stream_us.txt
+    path: ./ruleset/StreamUS.txt
+  StreamUSIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/ip/stream_us.txt
+    path: ./ruleset/StreamUSIP.txt
+  StreamEU:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/stream_eu.txt
+    path: ./ruleset/StreamEU.txt
+  StreamEUIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/ip/stream_eu.txt
+    path: ./ruleset/StreamEUIP.txt
+  Netflix:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Netflix/Netflix_No_Resolve.yaml
+    path: ./ruleset/Netflix.yaml
+  YouTube:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/YouTube/YouTube_No_Resolve.yaml
+    path: ./ruleset/YouTube.yaml
+  Disney:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney_No_Resolve.yaml
+    path: ./ruleset/Disney.yaml
+  AmazonPrimeVideo:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/AmazonPrimeVideo/AmazonPrimeVideo_No_Resolve.yaml
+    path: ./ruleset/AmazonPrimeVideo.yaml
+  HBO:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HBO/HBO_No_Resolve.yaml
+    path: ./ruleset/HBO.yaml
+  Hulu:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Hulu/Hulu_No_Resolve.yaml
+    path: ./ruleset/Hulu.yaml
+  Spotify:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Spotify/Spotify_No_Resolve.yaml
+    path: ./ruleset/Spotify.yaml
+  TikTok:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok_No_Resolve.yaml
+    path: ./ruleset/TikTok.yaml
+  Twitch:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitch/Twitch_No_Resolve.yaml
+    path: ./ruleset/Twitch.yaml
+  ParamountPlus:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ParamountPlus/ParamountPlus_No_Resolve.yaml
+    path: ./ruleset/ParamountPlus.yaml
+  DAZN:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/DAZN/DAZN_No_Resolve.yaml
+    path: ./ruleset/DAZN.yaml
+  EHentai:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@main/ruleset/EHentai.list
+    path: ./ruleset/EHentai.list
+  StreamHK:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/stream_hk.txt
+    path: ./ruleset/StreamHK.txt
+  StreamHKIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/ip/stream_hk.txt
+    path: ./ruleset/StreamHKIP.txt
+  TVB:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TVB/TVB_No_Resolve.yaml
+    path: ./ruleset/TVB.yaml
+  ViuTV:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/ViuTV/ViuTV_No_Resolve.yaml
+    path: ./ruleset/ViuTV.yaml
+  StreamTW:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/stream_tw.txt
+    path: ./ruleset/StreamTW.txt
+  StreamTWIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/ip/stream_tw.txt
+    path: ./ruleset/StreamTWIP.txt
+  Bahamut:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bahamut/Bahamut_No_Resolve.yaml
+    path: ./ruleset/Bahamut.yaml
+  KKTV:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/KKTV/KKTV_No_Resolve.yaml
+    path: ./ruleset/KKTV.yaml
+  LiTV:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/LiTV/LiTV_No_Resolve.yaml
+    path: ./ruleset/LiTV.yaml
+  StreamJP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/stream_jp.txt
+    path: ./ruleset/StreamJP.txt
+  StreamJPIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/ip/stream_jp.txt
+    path: ./ruleset/StreamJPIP.txt
+  AbemaTV:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/AbemaTV/AbemaTV_No_Resolve.yaml
+    path: ./ruleset/AbemaTV.yaml
+  Niconico:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Niconico/Niconico_No_Resolve.yaml
+    path: ./ruleset/Niconico.yaml
+  HuluJP:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HuluJP/HuluJP_No_Resolve.yaml
+    path: ./ruleset/HuluJP.yaml
+  StreamKR:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/stream_kr.txt
+    path: ./ruleset/StreamKR.txt
+  StreamKRIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/ip/stream_kr.txt
+    path: ./ruleset/StreamKRIP.txt
+  BiliBili:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/BiliBili/BiliBili_No_Resolve.yaml
+    path: ./ruleset/BiliBili.yaml
+  Weibo:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@main/ruleset/Weibo.list
+    path: ./ruleset/Weibo.list
+  XiaoHongShu:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/XiaoHongShu/XiaoHongShu_No_Resolve.yaml
+    path: ./ruleset/XiaoHongShu.yaml
+  DouYin:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/DouYin/DouYin_No_Resolve.yaml
+    path: ./ruleset/DouYin.yaml
+  TencentVideo:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TencentVideo/TencentVideo_No_Resolve.yaml
+    path: ./ruleset/TencentVideo.yaml
+  iQIYI:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/iQIYI/iQIYI_No_Resolve.yaml
+    path: ./ruleset/iQIYI.yaml
+  Youku:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Youku/Youku_No_Resolve.yaml
+    path: ./ruleset/Youku.yaml
+  NetEaseMusic:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/NetEaseMusic/NetEaseMusic_No_Resolve.yaml
+    path: ./ruleset/NetEaseMusic.yaml
+  GoogleFCM:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@main/ruleset/GoogleFCM.list
+    path: ./ruleset/GoogleFCM.list
+  AppleCN:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/apple_cn.txt
+    path: ./ruleset/AppleCN.txt
+  Telegram:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram_No_Resolve.yaml
+    path: ./ruleset/Telegram.yaml
+  Twitter:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitter/Twitter_No_Resolve.yaml
+    path: ./ruleset/Twitter.yaml
+  Facebook:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Facebook/Facebook_No_Resolve.yaml
+    path: ./ruleset/Facebook.yaml
+  Instagram:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Instagram/Instagram_No_Resolve.yaml
+    path: ./ruleset/Instagram.yaml
+  Threads:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Threads/Threads_No_Resolve.yaml
+    path: ./ruleset/Threads.yaml
+  Reddit:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Reddit/Reddit_No_Resolve.yaml
+    path: ./ruleset/Reddit.yaml
+  Discord:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Discord/Discord_No_Resolve.yaml
+    path: ./ruleset/Discord.yaml
+  Whatsapp:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Whatsapp/Whatsapp_No_Resolve.yaml
+    path: ./ruleset/Whatsapp.yaml
+  Line:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Line/Line_No_Resolve.yaml
+    path: ./ruleset/Line.yaml
+  TruthSocial:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TruthSocial/TruthSocial_No_Resolve.yaml
+    path: ./ruleset/TruthSocial.yaml
+  GitHub:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub_No_Resolve.yaml
+    path: ./ruleset/GitHub.yaml
+  GitLab:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitLab/GitLab_No_Resolve.yaml
+    path: ./ruleset/GitLab.yaml
+  Developer:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Developer/Developer_No_Resolve.yaml
+    path: ./ruleset/Developer.yaml
+  Docker:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Docker/Docker_No_Resolve.yaml
+    path: ./ruleset/Docker.yaml
+  Npmjs:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Npmjs/Npmjs_No_Resolve.yaml
+    path: ./ruleset/Npmjs.yaml
+  Python:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Python/Python_No_Resolve.yaml
+    path: ./ruleset/Python.yaml
+  Jetbrains:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Jetbrains/Jetbrains_No_Resolve.yaml
+    path: ./ruleset/Jetbrains.yaml
+  Vercel:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Vercel/Vercel_No_Resolve.yaml
+    path: ./ruleset/Vercel.yaml
+  Cloudflare:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Cloudflare/Cloudflare_No_Resolve.yaml
+    path: ./ruleset/Cloudflare.yaml
+  HashiCorp:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HashiCorp/HashiCorp_No_Resolve.yaml
+    path: ./ruleset/HashiCorp.yaml
+  SourceForge:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/SourceForge/SourceForge_No_Resolve.yaml
+    path: ./ruleset/SourceForge.yaml
+  Microsoft:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/microsoft.txt
+    path: ./ruleset/Microsoft.txt
+  AppleServices:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/apple_services.txt
+    path: ./ruleset/AppleServices.txt
+  AppleServicesIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/ip/apple_services.txt
+    path: ./ruleset/AppleServicesIP.txt
+  OneDrive:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OneDrive/OneDrive_No_Resolve.yaml
+    path: ./ruleset/OneDrive.yaml
+  GoogleDrive:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GoogleDrive/GoogleDrive_No_Resolve.yaml
+    path: ./ruleset/GoogleDrive.yaml
+  Dropbox:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Dropbox/Dropbox_No_Resolve.yaml
+    path: ./ruleset/Dropbox.yaml
+  Notion:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Notion/Notion_No_Resolve.yaml
+    path: ./ruleset/Notion.yaml
+  Slack:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Slack/Slack_No_Resolve.yaml
+    path: ./ruleset/Slack.yaml
+  Teams:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Teams/Teams_No_Resolve.yaml
+    path: ./ruleset/Teams.yaml
+  StaticResources:
+    type: http
+    behavior: domain
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/domainset/cdn.txt
+    path: ./ruleset/StaticResources.txt
+  CDNResources:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/cdn.txt
+    path: ./ruleset/CDNResources.txt
+  CDNResourcesIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/ip/cdn.txt
+    path: ./ruleset/CDNResourcesIP.txt
+  DownloadDomain:
+    type: http
+    behavior: domain
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/domainset/download.txt
+    path: ./ruleset/DownloadDomain.txt
+  GameDownloadDomain:
+    type: http
+    behavior: domain
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/domainset/game-download.txt
+    path: ./ruleset/GameDownloadDomain.txt
+  DownloadNonIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/non_ip/download.txt
+    path: ./ruleset/DownloadNonIP.txt
+  DownloadIP:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://ruleset.skk.moe/Clash/ip/download.txt
+    path: ./ruleset/DownloadIP.txt
+  Download:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Download/Download_No_Resolve.yaml
+    path: ./ruleset/Download.yaml
+  AdditionalCDNResources:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@main/ruleset/AdditionalCDNResources.list
+    path: ./ruleset/AdditionalCDNResources.list
+  SteamFix:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@main/ruleset/SteamFix.list
+    path: ./ruleset/SteamFix.list
+  Steam:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Steam/Steam_No_Resolve.yaml
+    path: ./ruleset/Steam.yaml
+  SteamCN:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/SteamCN/SteamCN_No_Resolve.yaml
+    path: ./ruleset/SteamCN.yaml
+  Xbox:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Xbox/Xbox_No_Resolve.yaml
+    path: ./ruleset/Xbox.yaml
+  PlayStation:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PlayStation/PlayStation_No_Resolve.yaml
+    path: ./ruleset/PlayStation.yaml
+  Nintendo:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Nintendo/Nintendo_No_Resolve.yaml
+    path: ./ruleset/Nintendo.yaml
+  Epic:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Epic/Epic_No_Resolve.yaml
+    path: ./ruleset/Epic.yaml
+  Blizzard:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Blizzard/Blizzard_No_Resolve.yaml
+    path: ./ruleset/Blizzard.yaml
+  EA:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/EA/EA_No_Resolve.yaml
+    path: ./ruleset/EA.yaml
+  Riot:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Riot/Riot_No_Resolve.yaml
+    path: ./ruleset/Riot.yaml
+  Ubisoft:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Ubisoft/Ubisoft_No_Resolve.yaml
+    path: ./ruleset/Ubisoft.yaml
+  HoYoverse:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HoYoverse/HoYoverse_No_Resolve.yaml
+    path: ./ruleset/HoYoverse.yaml
+  Crypto:
+    type: http
+    behavior: classical
+    format: text
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@main/ruleset/Crypto.list
+    path: ./ruleset/Crypto.list
+  Binance:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Binance/Binance_No_Resolve.yaml
+    path: ./ruleset/Binance.yaml
+  OKX:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OKX/OKX_No_Resolve.yaml
+    path: ./ruleset/OKX.yaml
+  PayPal:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PayPal/PayPal_No_Resolve.yaml
+    path: ./ruleset/PayPal.yaml
+  Stripe:
+    type: http
+    behavior: classical
+    format: yaml
+    interval: 86400
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Stripe/Stripe_No_Resolve.yaml
+    path: ./ruleset/Stripe.yaml
+rules:
+  - AND,((DOMAIN-KEYWORD,stun),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,3478),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,3479),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,5349),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,5350),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,19302),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,19303),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,19304),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,19305),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,19306),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,19307),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,19308),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,19309),(NETWORK,UDP)),选择代理
+  - AND,((DST-PORT,443),(NETWORK,UDP)),REJECT
+  - GEOSITE,private,DIRECT
+  - GEOSITE,connectivity-check,DIRECT
+  - GEOIP,private,DIRECT,no-resolve
+  - RULE-SET,ZJUInternal,DIRECT
+  - RULE-SET,ZJU,ZJU
+  - RULE-SET,Lan,DIRECT
+  - RULE-SET,ADBlock,广告拦截
+  - RULE-SET,AdditionalFilter,广告拦截
+  - RULE-SET,AdvertisingLite,广告拦截
+  - RULE-SET,SogouInput,隐私防护
+  - RULE-SET,BlockHttpDNS,隐私防护
+  - RULE-SET,SukkaAI,AI服务
+  - RULE-SET,AppleIntelligence,AI服务
+  - RULE-SET,OpenAI,AI服务
+  - RULE-SET,Gemini,AI服务
+  - RULE-SET,Claude,AI服务
+  - RULE-SET,Copilot,AI服务
+  - RULE-SET,Civitai,AI服务
+  - GEOSITE,category-ai-!cn,AI服务
+  - RULE-SET,StreamUS,海外流媒体
+  - RULE-SET,StreamUSIP,海外流媒体
+  - RULE-SET,StreamEU,海外流媒体
+  - RULE-SET,StreamEUIP,海外流媒体
+  - RULE-SET,Netflix,海外流媒体
+  - RULE-SET,YouTube,海外流媒体
+  - RULE-SET,Disney,海外流媒体
+  - RULE-SET,AmazonPrimeVideo,海外流媒体
+  - RULE-SET,HBO,海外流媒体
+  - RULE-SET,Hulu,海外流媒体
+  - RULE-SET,Spotify,海外流媒体
+  - RULE-SET,TikTok,海外流媒体
+  - RULE-SET,Twitch,海外流媒体
+  - RULE-SET,ParamountPlus,海外流媒体
+  - RULE-SET,DAZN,海外流媒体
+  - RULE-SET,EHentai,海外流媒体
+  - GEOSITE,youtube,海外流媒体
+  - GEOSITE,netflix,海外流媒体
+  - GEOIP,netflix,海外流媒体,no-resolve
+  - GEOSITE,spotify,海外流媒体
+  - RULE-SET,StreamHK,香港媒体
+  - RULE-SET,StreamHKIP,香港媒体
+  - RULE-SET,TVB,香港媒体
+  - RULE-SET,ViuTV,香港媒体
+  - RULE-SET,StreamTW,台湾媒体
+  - RULE-SET,StreamTWIP,台湾媒体
+  - RULE-SET,Bahamut,台湾媒体
+  - RULE-SET,KKTV,台湾媒体
+  - RULE-SET,LiTV,台湾媒体
+  - GEOSITE,bahamut,台湾媒体
+  - RULE-SET,StreamJP,日本媒体
+  - RULE-SET,StreamJPIP,日本媒体
+  - RULE-SET,AbemaTV,日本媒体
+  - RULE-SET,Niconico,日本媒体
+  - RULE-SET,HuluJP,日本媒体
+  - RULE-SET,StreamKR,韩国媒体
+  - RULE-SET,StreamKRIP,韩国媒体
+  - GEOSITE,google-play@cn,国内应用
+  - GEOSITE,microsoft@cn,国内应用
+  - RULE-SET,BiliBili,国内应用
+  - RULE-SET,Weibo,国内应用
+  - RULE-SET,XiaoHongShu,国内应用
+  - RULE-SET,DouYin,国内应用
+  - RULE-SET,TencentVideo,国内应用
+  - RULE-SET,iQIYI,国内应用
+  - RULE-SET,Youku,国内应用
+  - RULE-SET,NetEaseMusic,国内应用
+  - RULE-SET,GoogleFCM,国内应用
+  - RULE-SET,AppleCN,国内应用
+  - GEOSITE,bilibili,国内应用
+  - RULE-SET,Telegram,社交通讯
+  - RULE-SET,Twitter,社交通讯
+  - RULE-SET,Facebook,社交通讯
+  - RULE-SET,Instagram,社交通讯
+  - RULE-SET,Threads,社交通讯
+  - RULE-SET,Reddit,社交通讯
+  - RULE-SET,Discord,社交通讯
+  - RULE-SET,Whatsapp,社交通讯
+  - RULE-SET,Line,社交通讯
+  - RULE-SET,TruthSocial,社交通讯
+  - GEOSITE,telegram,社交通讯
+  - GEOIP,telegram,社交通讯,no-resolve
+  - GEOSITE,twitter,社交通讯
+  - RULE-SET,GitHub,开发服务
+  - RULE-SET,GitLab,开发服务
+  - RULE-SET,Developer,开发服务
+  - RULE-SET,Docker,开发服务
+  - RULE-SET,Npmjs,开发服务
+  - RULE-SET,Python,开发服务
+  - RULE-SET,Jetbrains,开发服务
+  - RULE-SET,Vercel,开发服务
+  - RULE-SET,Cloudflare,开发服务
+  - RULE-SET,HashiCorp,开发服务
+  - RULE-SET,SourceForge,开发服务
+  - GEOSITE,github,开发服务
+  - RULE-SET,Microsoft,平台与生产力
+  - RULE-SET,AppleServices,平台与生产力
+  - RULE-SET,AppleServicesIP,平台与生产力
+  - RULE-SET,OneDrive,平台与生产力
+  - RULE-SET,GoogleDrive,平台与生产力
+  - RULE-SET,Dropbox,平台与生产力
+  - RULE-SET,Notion,平台与生产力
+  - RULE-SET,Slack,平台与生产力
+  - RULE-SET,Teams,平台与生产力
+  - GEOSITE,apple,平台与生产力
+  - GEOSITE,microsoft,平台与生产力
+  - GEOSITE,google,平台与生产力
+  - RULE-SET,StaticResources,下载与静态资源
+  - RULE-SET,CDNResources,下载与静态资源
+  - RULE-SET,CDNResourcesIP,下载与静态资源
+  - RULE-SET,DownloadDomain,下载与静态资源
+  - RULE-SET,GameDownloadDomain,下载与静态资源
+  - RULE-SET,DownloadNonIP,下载与静态资源
+  - RULE-SET,DownloadIP,下载与静态资源
+  - RULE-SET,Download,下载与静态资源
+  - RULE-SET,AdditionalCDNResources,下载与静态资源
+  - RULE-SET,SteamFix,下载与静态资源
+  - GEOSITE,pikpak,下载与静态资源
+  - RULE-SET,Steam,游戏服务
+  - RULE-SET,SteamCN,游戏服务
+  - RULE-SET,Xbox,游戏服务
+  - RULE-SET,PlayStation,游戏服务
+  - RULE-SET,Nintendo,游戏服务
+  - RULE-SET,Epic,游戏服务
+  - RULE-SET,Blizzard,游戏服务
+  - RULE-SET,EA,游戏服务
+  - RULE-SET,Riot,游戏服务
+  - RULE-SET,Ubisoft,游戏服务
+  - RULE-SET,HoYoverse,游戏服务
+  - GEOSITE,xbox,游戏服务
+  - RULE-SET,Crypto,金融加密
+  - RULE-SET,Binance,金融加密
+  - RULE-SET,OKX,金融加密
+  - RULE-SET,PayPal,金融加密
+  - RULE-SET,Stripe,金融加密
+  - GEOSITE,cn,国内应用
+  - GEOIP,cn,国内应用,no-resolve
+  - GEOSITE,gfw,选择代理
+  - MATCH,选择代理
+sniffer:
+  sniff:
+    TLS:
+      ports:
+        - 443
+        - 8443
+    HTTP:
+      ports:
+        - 80
+        - 8080-8880
+      override-destination: true
+    QUIC:
+      ports:
+        - 443
+        - 8443
+  override-destination: false
+  enable: true
+  force-dns-mapping: true
+  skip-domain:
+    - Mijia Cloud
+    - dlg.io.mi.com
+    - +.push.apple.com
+dns:
+  enable: true
+  ipv6: true
+  prefer-h3: false
+  respect-rules: true
+  enhanced-mode: redir-host
+  proxy-server-nameserver:
+    - tcp://223.5.5.5:53
+    - tcp://119.29.29.29:53
+  default-nameserver:
+    - tcp://223.5.5.5:53
+    - tcp://119.29.29.29:53
+  nameserver:
+    - tcp://1.1.1.1:53
+    - tcp://8.8.8.8:53
+  fallback:
+    - tcp://1.0.0.1:53
+    - tcp://8.8.4.4:53
+    - tls://1.1.1.1:853
+  nameserver-policy:
+    +.zju.edu.cn: 10.10.0.21
+tun:
+  enable: false
+  stack: system
+  device: Mihomo_Tun
+  route-exclude-address:
+    - 10.0.0.0/8
+    - 172.16.0.0/12
+    - 100.64.0.0/10
+    - 192.168.0.0/16
+    - fd00::/8
+    - fd7a:115c:a1e0::/48
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+    - tls://any:853
+  mtu: 1500
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: true
+geodata-mode: true
+geox-url:
+  geoip: https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geoip.dat
+  geosite: https://cdn.jsdelivr.net/gh/Loyalsoldier/v2ray-rules-dat@release/geosite.dat
+  mmdb: https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb
+  asn: https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb
+
