@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.3](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.2...src-v3.0.3) (2026-06-01)
+
+
+### Bug Fixes
+
+- Split client and lan fake-ip filters ([77ec622](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/77ec6227b5d559ccbdb233ef719811c17efefb61))
+- Allow cn domains to use fake-ip routing ([f9bf5af](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/f9bf5af3ecbc37a6e07ac09ae7706ed8767de875))
+- Route zju domains through fake-ip ([7951636](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/79516365811d19c2c50da754fd5b57d407431a55))
+- Update zju ruleset routing ([844c049](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/844c04902b8984ea2a6b7048694497ce6cc02e59))
 ## [3.0.2](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.1...src-v3.0.2) (2026-05-29)
 
 
