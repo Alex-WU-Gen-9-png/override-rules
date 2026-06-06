@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.4](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.3...src-v3.0.4) (2026-06-06)
+
+
+### Bug Fixes
+
+- Handle ntp on lan tun gateways ([f6b2835](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/f6b28351ffc1d9f71af73bf0a6cc13d7fe8a67d6))
 ## [3.0.3](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.2...src-v3.0.3) (2026-06-01)
 
 
