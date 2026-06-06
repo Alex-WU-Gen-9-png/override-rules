@@ -61,7 +61,7 @@
 *   `ipv6interface` / `ipv6_interface`：为识别出的 IPv6 Only 节点写入 `interface-name`（例如 `en0`、`eth0`，默认空；这些节点会自动写入 `ip-version: ipv6`）
 *   `full`：生成完整配置（适合纯内核启动，默认 false）
 *   `keepalive`：启用 TCP Keep Alive（默认 false）[^fn2]
-*   `fakeip`：DNS 增强模式使用 `fake-ip` 而不是 `redir-host`（开启后可能有助于解决 TUN 模式无法上网的问题；未传参时默认 `true`，显式传 `false` 时使用 `redir-host`）
+*   `fakeip`：DNS 增强模式使用 `fake-ip` 而不是 `redir-host`（开启后可能有助于解决 TUN 模式无法上网的问题；未传参时默认 `true`，显式传 `false` 时使用 `redir-host`；开启时会写入 `profile.store-fake-ip=true` 以降低 Mihomo 重启后旧 fake-ip 映射失效的影响）
 *   `quic`：允许 QUIC 流量（UDP 443，默认 false）[^quic]
 *   `webrtc`：允许 WebRTC/STUN 按普通规则分流（默认 false；Steam P2P UDP 会优先走「游戏服务」，其余常见 STUN/TURN UDP 默认走 `选择代理` 以降低公网 IP 泄漏风险）[^webrtc]
 *   `regex`：各国家/地区代理组改用 `include-all` + 正则过滤模式，由 Mihomo 内核在运行时按正则动态筛选节点，而非在脚本执行时枚举节点名称（默认 false）[^regex]
@@ -118,16 +118,7 @@ https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&t
 
 说明：`allow-lan` 与 `bind-address` 只影响 HTTP/SOCKS/mixed 代理端口的局域网访问；局域网透明代理主要依赖 TUN 自动路由/重定向、DNS 监听，以及客户端侧将网关和 DNS 指向运行 Mihomo 的设备。为兼容 ZJU 等使用 `10.0.0.0/8` 的内网资源，`lan=true` 时不会把 `10.0.0.0/8` 从 TUN 路由中排除。常见内网域名后缀（如 `.lan`、`.local`、`.home.arpa`）默认会加入 `fake-ip-filter`，避免客户端用域名访问内网设备时拿到 fake-ip。本机自用客户端（`lan=false`）不会把普通国内域名和 `zju.edu.cn` 放进 fake-ip 例外，以便国内应用和 ZJU 域名稳定按域名规则分流；局域网透明代理服务端（`lan=true`）会保留 `geosite:cn` 与 `+.zju.edu.cn` 例外，更适合给局域网客户端返回真实国内/ZJU 地址。
 
-Linux 单臂局域网网关上，标准 NTP（UDP/123）可能在 TUN 策略路由和同接口转发/NAT 之间超时。仓库提供了一个 systemd drop-in 模板，将 UDP/123 按端口绕过 Mihomo TUN 并随 `mihomo.service` 启停：
-
-```bash
-sudo install -d /etc/systemd/system/mihomo.service.d
-sudo install -m 0644 systemd/mihomo.service.d/override.conf /etc/systemd/system/mihomo.service.d/override.conf
-sudo systemctl daemon-reload
-sudo systemctl restart mihomo
-```
-
-如果 LAN/上游接口不是 `eth1`，先修改 drop-in 内的 `MIHOMO_LAN_IF`。这只处理单臂网关的系统路由/NAT 层；配置本身仍会为常见 NTP 域名加入 `fake-ip-filter`，并在规则前置 `UDP/123 DIRECT` 作为 Mihomo 内兜底。
+Linux 单臂局域网网关上，标准 NTP（UDP/123）可能在 TUN 策略路由和同接口转发/NAT 之间超时。配置本身会为常见 NTP 域名加入 `fake-ip-filter`，并在规则前置 `UDP/123 DIRECT` 作为 Mihomo 内兜底；如需系统级端口旁路，请结合现场路由/NAT 拓扑单独配置，不建议直接套用固定的 systemd drop-in。
 
 ### 关于各 Mihomo 客户端覆盖 GeoIP/GeoSite 下载地址的说明
 

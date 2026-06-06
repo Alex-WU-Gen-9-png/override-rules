@@ -131,6 +131,10 @@ function main(config: ClashConfig): ClashConfig {
     });
 
     const finalRules = buildRules({ quicEnabled, webRTCEnabled });
+    const profile = {
+        ...(fullConfig ? { "store-selected": true } : {}),
+        ...(fakeIPEnabled ? { "store-fake-ip": true } : {}),
+    };
 
     return {
         proxies,
@@ -155,8 +159,8 @@ function main(config: ClashConfig): ClashConfig {
                 "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
             ...(panelSecret && { secret: panelSecret }),
             "disable-keep-alive": !keepAliveEnabled,
-            profile: { "store-selected": true },
         }),
+        ...(Object.keys(profile).length > 0 ? { profile } : {}),
         "proxy-groups": proxyGroups,
         "rule-providers": ruleProviders,
         rules: finalRules,
