@@ -1,5 +1,11 @@
 # Changelog
 
+## [3.0.5](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.4...src-v3.0.5) (2026-06-06)
+
+
+### Bug Fixes
+
+- Persist fake-ip mappings ([b166b1c](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/b166b1cd2a4100db27d044ee6fac94590cadcfbd))
 ## [3.0.4](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.3...src-v3.0.4) (2026-06-06)
 
 
