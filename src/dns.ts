@@ -9,6 +9,36 @@ const LOCAL_DOMAIN_FAKE_IP_FILTER = [
     "+.internal",
 ];
 
+const NTP_FAKE_IP_FILTER = [
+    "+.ntp.org",
+    "+.ntp.org.cn",
+    "ntp.aliyun.com",
+    "ntp1.aliyun.com",
+    "ntp2.aliyun.com",
+    "ntp3.aliyun.com",
+    "ntp4.aliyun.com",
+    "ntp5.aliyun.com",
+    "ntp6.aliyun.com",
+    "ntp7.aliyun.com",
+    "ntp.tencent.com",
+    "ntp.ubuntu.com",
+    "ntp.msn.cn",
+    "ntp.msn.com",
+    "ntp.ntsc.ac.cn",
+    "ntp.zju.edu.cn",
+    "time.apple.com",
+    "time.cloudflare.com",
+    "time.google.com",
+    "time.microsoft.com",
+    "time.nist.gov",
+    "time.windows.com",
+    "time1.cloud.tencent.com",
+    "time2.cloud.tencent.com",
+    "time3.cloud.tencent.com",
+    "time4.cloud.tencent.com",
+    "time5.cloud.tencent.com",
+];
+
 /**
  * 基础 fake-ip 过滤域名列表。
  * 这些域名不会被 fake-ip 机制代理。
@@ -17,6 +47,7 @@ const BASE_FAKE_IP_FILTER = [
     "geosite:private",
     "geosite:connectivity-check",
     ...LOCAL_DOMAIN_FAKE_IP_FILTER,
+    ...NTP_FAKE_IP_FILTER,
     "Mijia Cloud",
     "dlg.io.mi.com",
     "localhost.ptlogin2.qq.com",

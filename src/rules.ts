@@ -5,12 +5,23 @@ const WEBRTC_STUN_UDP_PORTS = [
     3478, 3479, 5349, 5350, 19302, 19303, 19304, 19305, 19306, 19307, 19308, 19309,
 ];
 
+const NTP_UDP_DIRECT_RULE = `AND,((DST-PORT,123),(NETWORK,UDP)),${BUILTIN_DIRECT}`;
+
+const STEAM_P2P_UDP_PORTS = [
+    3478, 4379, 4380, 27014, 27015, 27016, 27017, 27018, 27019, 27020, 27021, 27022, 27023, 27024,
+    27025, 27026, 27027, 27028, 27029, 27030,
+];
+
 const WEBRTC_STUN_PROXY_RULES = [
     `AND,((DOMAIN-KEYWORD,stun),(NETWORK,UDP)),${PROXY_GROUPS.SELECT}`,
     ...WEBRTC_STUN_UDP_PORTS.map(
         (port) => `AND,((DST-PORT,${port}),(NETWORK,UDP)),${PROXY_GROUPS.SELECT}`
     ),
 ];
+
+const STEAM_P2P_UDP_RULES = STEAM_P2P_UDP_PORTS.map(
+    (port) => `AND,((DST-PORT,${port}),(NETWORK,UDP)),${PROXY_GROUPS.GAME}`
+);
 
 function buildRuleSetRules(stage: RuleStage): string[] {
     return ruleCatalog
@@ -102,7 +113,7 @@ const baseRules = [
  *
  * @param {Object} params - 构建参数
  * @param {boolean} params.quicEnabled - 是否启用 QUIC（如未启用会插入 UDP:443 拦截规则）
- * @param {boolean} params.webRTCEnabled - 是否启用 WebRTC/STUN 按普通规则分流（如未启用会把常见 STUN/TURN UDP 流量强制分流到代理）
+ * @param {boolean} params.webRTCEnabled - 是否启用 WebRTC/STUN 按普通规则分流（NTP UDP 会直连，Steam P2P UDP 会优先进入游戏服务）
  * @returns {string[]} 规则字符串数组
  */
 export function buildRules({
@@ -112,7 +123,7 @@ export function buildRules({
     quicEnabled: boolean;
     webRTCEnabled: boolean;
 }): string[] {
-    const ruleList: string[] = [];
+    const ruleList: string[] = [NTP_UDP_DIRECT_RULE, ...STEAM_P2P_UDP_RULES];
     if (!webRTCEnabled) {
         ruleList.push(...WEBRTC_STUN_PROXY_RULES);
     }

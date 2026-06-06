@@ -63,7 +63,7 @@
 *   `keepalive`：启用 TCP Keep Alive（默认 false）[^fn2]
 *   `fakeip`：DNS 增强模式使用 `fake-ip` 而不是 `redir-host`（开启后可能有助于解决 TUN 模式无法上网的问题；未传参时默认 `true`，显式传 `false` 时使用 `redir-host`）
 *   `quic`：允许 QUIC 流量（UDP 443，默认 false）[^quic]
-*   `webrtc`：允许 WebRTC/STUN 按普通规则分流（默认 false；默认强制常见 STUN/TURN UDP 流量走 `选择代理` 以降低公网 IP 泄漏风险）[^webrtc]
+*   `webrtc`：允许 WebRTC/STUN 按普通规则分流（默认 false；Steam P2P UDP 会优先走「游戏服务」，其余常见 STUN/TURN UDP 默认走 `选择代理` 以降低公网 IP 泄漏风险）[^webrtc]
 *   `regex`：各国家/地区代理组改用 `include-all` + 正则过滤模式，由 Mihomo 内核在运行时按正则动态筛选节点，而非在脚本执行时枚举节点名称（默认 false）[^regex]
 *   `tun`：启用 TUN 模式（system 栈，自动配置路由、路由排除地址与 DNS 劫持，默认 false）
 *   `lan`：启用局域网透明代理辅助配置（写入 `dns.listen: 0.0.0.0:53`；当 `tun=true` 时额外写入 `auto-redirect: true`，并保留 `10.0.0.0/8` 进入 TUN 分流以兼容 ZJU 内网访问，默认 false）
@@ -75,7 +75,7 @@
 
 [^landing]: 注意在默认的枚举模式下，如果没有符合条件的落地节点（e.g 名称中带有「家宽」、「商宽」、「落地」等关键词的节点），内核会无法启动。
 [^quic]: 默认屏蔽了 QUIC 流量防止节点 UDP 性能不佳影响上网体验，如果确信节点质量良好，建议设置为 true。
-[^webrtc]: 默认强制走代理时，如果所选代理不支持 UDP，部分浏览器实时音视频、P2P 或在线会议场景会降级或不可用；确实需要按原始规则处理 WebRTC 时可以显式设置为 `true`。
+[^webrtc]: 默认强制走代理时，如果所选代理不支持 UDP，部分浏览器实时音视频、P2P 或在线会议场景会降级或不可用；Steamworks P2P 常用 UDP 端口会先进入「游戏服务」，确实需要按原始规则处理 WebRTC 时可以显式设置为 `true`。
 [^regex]: 默认情况下覆写脚本会直接把节点都筛选好，如果想让内核来筛（比如，你在 Clash Party 客户端里额外添加了自建节点，想直接通过正则表达式筛选进入配置文件）那就打开吧。
 
 IPv6 Only 节点会根据节点名称、IPv6 字面量地址，以及带有 `v6`/`ipv6` 特征的 DDNS 域名自动识别；识别后会补充 `ip-version: ipv6`。其中只有 IPv6 字面量地址会以 `/128` 合并进 TUN 的 `route-exclude-address`，DDNS 域名不会写入该列表，避免被 Mihomo 当作 CIDR 解析失败。
@@ -117,6 +117,17 @@ https://cdn.jsdelivr.net/gh/powerfullz/override-rules/convert.min.js#full=true&t
 ```
 
 说明：`allow-lan` 与 `bind-address` 只影响 HTTP/SOCKS/mixed 代理端口的局域网访问；局域网透明代理主要依赖 TUN 自动路由/重定向、DNS 监听，以及客户端侧将网关和 DNS 指向运行 Mihomo 的设备。为兼容 ZJU 等使用 `10.0.0.0/8` 的内网资源，`lan=true` 时不会把 `10.0.0.0/8` 从 TUN 路由中排除。常见内网域名后缀（如 `.lan`、`.local`、`.home.arpa`）默认会加入 `fake-ip-filter`，避免客户端用域名访问内网设备时拿到 fake-ip。本机自用客户端（`lan=false`）不会把普通国内域名和 `zju.edu.cn` 放进 fake-ip 例外，以便国内应用和 ZJU 域名稳定按域名规则分流；局域网透明代理服务端（`lan=true`）会保留 `geosite:cn` 与 `+.zju.edu.cn` 例外，更适合给局域网客户端返回真实国内/ZJU 地址。
+
+Linux 单臂局域网网关上，标准 NTP（UDP/123）可能在 TUN 策略路由和同接口转发/NAT 之间超时。仓库提供了一个 systemd drop-in 模板，将 UDP/123 按端口绕过 Mihomo TUN 并随 `mihomo.service` 启停：
+
+```bash
+sudo install -d /etc/systemd/system/mihomo.service.d
+sudo install -m 0644 systemd/mihomo.service.d/override.conf /etc/systemd/system/mihomo.service.d/override.conf
+sudo systemctl daemon-reload
+sudo systemctl restart mihomo
+```
+
+如果 LAN/上游接口不是 `eth1`，先修改 drop-in 内的 `MIHOMO_LAN_IF`。这只处理单臂网关的系统路由/NAT 层；配置本身仍会为常见 NTP 域名加入 `fake-ip-filter`，并在规则前置 `UDP/123 DIRECT` 作为 Mihomo 内兜底。
 
 ### 关于各 Mihomo 客户端覆盖 GeoIP/GeoSite 下载地址的说明
 
