@@ -1,6 +1,6 @@
 /*!
-powerfullz 的 Substore 订阅转换脚本
-https://github.com/powerfullz/override-rules
+Alex-WU-Gen-9-png 的 SubStore 覆写脚本
+https://github.com/Alex-WU-Gen-9-png/override-rules
 
 支持的传入参数：
 - loadbalance: 启用负载均衡（load-balance，默认 false）
@@ -54,7 +54,7 @@ function getRawArgs(): ScriptArgs {
     try {
         return $arguments;
     } catch {
-        console.log("[powerfullz 的覆写脚本] 未检测到传入参数，使用默认参数。", {});
+        console.log("[Alex-WU-Gen-9-png 的覆写脚本] 未检测到传入参数，使用默认参数。", {});
         return {};
     }
 }
