@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.1.0](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.5...src-v3.1.0) (2026-07-16)
+
+
+### Documentation
+
+- 统一项目维护者与说明文档 ([3f488f0](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/3f488f050ef4a7be3522a0aabc90cfff2ab09b95))
+
+
+### Features
+
+- 优化局域网 DNS 策略 ([e0fcd72](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/e0fcd72cd27c3d3ce6a3a43cd093f74da2b14695))
 ## [3.0.5](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.4...src-v3.0.5) (2026-06-06)
 
 
