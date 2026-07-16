@@ -238,6 +238,13 @@ export const ruleCatalog: RuleCatalogItem[] = [
     catalogItem("Weibo", selfClassical("Weibo"), PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),
     blackmatrixItem("XiaoHongShu", "XiaoHongShu", PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),
     blackmatrixItem("DouYin", "DouYin", PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),
+    blackmatrixItem("WeChat", "WeChat", PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),
+    catalogItem(
+        "Tencent",
+        blackmatrixDomain("Tencent"),
+        PROXY_GROUPS.DOMESTIC_SERVICES,
+        "domestic"
+    ),
     blackmatrixItem("TencentVideo", "TencentVideo", PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),
     blackmatrixItem("iQIYI", "iQIYI", PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),
     blackmatrixItem("Youku", "Youku", PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),

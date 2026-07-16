@@ -34,6 +34,7 @@ const FEATURE_FLAG_DEFAULTS = {
     regexFilter: false,
     tunEnabled: false,
     lanEnabled: false,
+    dnsListen: "0.0.0.0:53",
     countryThreshold: 0,
     panelPort: 9999,
     panelSecret: "",

@@ -44,8 +44,8 @@ https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#land
 # 输出完整配置，并设置 MetaXD 面板端口和密码
 https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#full=true&panelport=9090&panelsecret=your-password
 
-# 启用完整配置、TUN 和局域网透明代理辅助配置
-https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#full=true&tun=true&lan=true
+# 启用完整配置、TUN 和局域网透明代理辅助配置，并指定局域网 DNS 监听地址
+https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#full=true&tun=true&lan=true&dnslisten=192.168.50.42:53
 ```
 
 ## 客户端说明
@@ -68,9 +68,9 @@ https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#land
 
 如果客户端无法执行 JS 覆写脚本，可以改用发布产物中的静态 YAML 覆写文件。静态 YAML 无法根据真实订阅节点动态裁剪策略组，优先推荐 JS 动态覆写。
 
-## URL 参数
+## 可选 URL 参数一览
 
-布尔参数支持 `true`/`false` 和 `1`/`0`。未传入参数时使用默认值。
+当前 JS 动态覆写支持的完整参数如下。布尔参数支持 `true`/`false` 和 `1`/`0`，未传入参数时使用默认值。
 
 | 参数 | 默认值 | 说明 |
 | :--- | :--- | :--- |
@@ -87,6 +87,7 @@ https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#land
 | `regex` | `false` | 国家/地区代理组使用 `include-all` + `filter`，由 Mihomo 运行时筛选节点。 |
 | `tun` | `false` | 启用 TUN 模式，自动配置路由、DNS 劫持和接口探测。 |
 | `lan` | `false` | 启用局域网透明代理辅助配置；与 `tun=true` 搭配时会启用 `auto-redirect`。 |
+| `dnslisten` / `dns_listen` | `0.0.0.0:53` | `lan=true` 时写入 `dns.listen`；可指定为局域网地址，例如 `192.168.50.42:53`，避免 `0.0.0.0:53` 与系统 DNS 服务端口冲突。 |
 | `threshold` | `0` | 国家/地区节点数小于该值时不显示对应地区组。 |
 | `panelport` | `9999` | MetaXD 面板控制端口，仅在 `full=true` 时生效。 |
 | `panelsecret` | 空 | MetaXD 面板访问密码，仅在 `full=true` 时生效；特殊字符请先 URL Encode。 |
@@ -151,7 +152,15 @@ IPv6 Only 节点会根据节点名称、IPv6 字面量地址，以及带有 `v6`
 
 只有 IPv6 字面量地址会以 `/128` 合并进 TUN 的 `route-exclude-address`。DDNS 域名不会写入该列表，避免被 Mihomo 当作 CIDR 解析失败。
 
-`lan=true` 会写入 `dns.listen: 0.0.0.0:53`。当同时启用 `tun=true` 时，会额外写入 `auto-redirect: true`，并保留 `10.0.0.0/8` 进入 TUN 分流以兼容 ZJU 等内网访问。
+`lan=true` 会写入 `dns.listen`，默认值是 `0.0.0.0:53`。如果运行环境已有 `systemd-resolved`、dnsmasq、AdGuard Home 或其他 DNS 服务占用 53 端口，可以用 `dnslisten=192.168.50.42:53` 指定具体局域网地址，避免监听所有 IPv4 地址导致端口冲突。
+
+当同时启用 `tun=true` 时，会额外写入 `auto-redirect: true`，并保留 `10.0.0.0/8` 进入 TUN 分流以兼容 ZJU 等内网访问。
+
+## DNS 策略
+
+默认本地解析使用 Mihomo 的 `system` DNS，由运行环境的系统 DNS 负责解析。`geosite:cn` 会在全局 `nameserver-policy` 中指定到 `system`。
+
+微信、QQ 与腾讯相关域名复用上游 `Tencent` 和 `WeChat` 规则集，并在 `nameserver-policy` 中指定到 `system` DNS。
 
 ## GeoX 资源
 
@@ -193,6 +202,8 @@ https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules@vX.Y.Z/yamls/config
 ```
 
 生成器会固定传入 `regex=true`，因此静态 YAML 始终使用正则筛选模式，不受 JS 链接里的 `regex` 参数影响。CI 使用虚拟节点生成静态 YAML，无法像 JS 动态脚本那样根据真实订阅节点生成专属策略组。
+
+静态 YAML 文件名只组合布尔参数；`dnslisten` 这类运行环境相关的字符串参数仅支持 JS 动态覆写。
 
 ## 发布规则
 

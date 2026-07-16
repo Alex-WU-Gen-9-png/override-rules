@@ -14,6 +14,8 @@ export interface ScriptArgs {
     threshold?: string;
     tun?: string;
     lan?: string;
+    dnslisten?: string;
+    dns_listen?: string;
     panelport?: string;
     panelsecret?: string;
 }
@@ -33,6 +35,7 @@ export interface FeatureFlags {
     countryThreshold: number;
     tunEnabled: boolean;
     lanEnabled: boolean;
+    dnsListen: string;
     panelPort: number;
     panelSecret: string;
 }

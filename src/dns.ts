@@ -1,5 +1,8 @@
 import type { DnsConfig, SnifferConfig } from "./types";
 
+const SYSTEM_DNS_SERVER = "system";
+const WECHAT_QQ_DNS_POLICY_RULE_SETS = ["rule-set:Tencent", "rule-set:WeChat"];
+
 const LOCAL_DOMAIN_FAKE_IP_FILTER = [
     "+.lan",
     "+.local",
@@ -55,8 +58,6 @@ const BASE_FAKE_IP_FILTER = [
     "+.push.apple.com",
 ];
 
-const LAN_COMPAT_FAKE_IP_FILTER = ["geosite:cn", "+.zju.edu.cn", ...BASE_FAKE_IP_FILTER];
-
 /**
  * 嗅探器配置。
  */
@@ -86,6 +87,7 @@ interface BuildDnsConfigInput {
     mode: "redir-host" | "fake-ip";
     ipv6Enabled: boolean;
     lanEnabled: boolean;
+    dnsListen: string;
     fakeIpFilter?: string[];
 }
 
@@ -100,22 +102,27 @@ function buildDnsConfig({
     mode,
     ipv6Enabled,
     lanEnabled,
+    dnsListen,
     fakeIpFilter,
 }: BuildDnsConfigInput): DnsConfig {
     const config: DnsConfig = {
         enable: true,
-        ...(lanEnabled ? { listen: "0.0.0.0:53" } : {}),
+        ...(lanEnabled ? { listen: dnsListen } : {}),
         ipv6: ipv6Enabled,
         // Mihomo docs explicitly discourage combining prefer-h3 with respect-rules.
         "prefer-h3": false,
         "respect-rules": true,
         "enhanced-mode": mode,
-        "proxy-server-nameserver": ["tcp://223.5.5.5:53", "tcp://119.29.29.29:53"],
-        "default-nameserver": ["tcp://223.5.5.5:53", "tcp://119.29.29.29:53"],
+        "proxy-server-nameserver": [SYSTEM_DNS_SERVER],
+        "default-nameserver": [SYSTEM_DNS_SERVER],
         nameserver: ["tcp://1.1.1.1:53", "tcp://8.8.8.8:53"],
         fallback: ["tcp://1.0.0.1:53", "tcp://8.8.4.4:53", "tls://1.1.1.1:853"],
         "nameserver-policy": {
-            "+.zju.edu.cn": "10.10.0.21",
+            "+.zju.edu.cn": SYSTEM_DNS_SERVER,
+            "geosite:cn": SYSTEM_DNS_SERVER,
+            ...Object.fromEntries(
+                WECHAT_QQ_DNS_POLICY_RULE_SETS.map((ruleSet) => [ruleSet, SYSTEM_DNS_SERVER])
+            ),
         },
     };
 
@@ -135,6 +142,7 @@ export interface BuildDnsInput {
     fakeIPEnabled: boolean;
     ipv6Enabled: boolean;
     lanEnabled: boolean;
+    dnsListen: string;
 }
 
 /**
@@ -143,14 +151,20 @@ export interface BuildDnsInput {
  * @param {boolean} params.fakeIPEnabled - 是否启用 fake-ip 模式
  * @returns {DnsConfig} DNS 配置对象
  */
-export function buildDns({ fakeIPEnabled, ipv6Enabled, lanEnabled }: BuildDnsInput): DnsConfig {
+export function buildDns({
+    fakeIPEnabled,
+    ipv6Enabled,
+    lanEnabled,
+    dnsListen,
+}: BuildDnsInput): DnsConfig {
     if (fakeIPEnabled) {
         return buildDnsConfig({
             mode: "fake-ip",
             ipv6Enabled,
             lanEnabled,
-            fakeIpFilter: lanEnabled ? LAN_COMPAT_FAKE_IP_FILTER : BASE_FAKE_IP_FILTER,
+            dnsListen,
+            fakeIpFilter: BASE_FAKE_IP_FILTER,
         });
     }
-    return buildDnsConfig({ mode: "redir-host", ipv6Enabled, lanEnabled });
+    return buildDnsConfig({ mode: "redir-host", ipv6Enabled, lanEnabled, dnsListen });
 }

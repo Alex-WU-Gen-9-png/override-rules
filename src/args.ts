@@ -15,6 +15,7 @@ export const FEATURE_FLAG_DEFAULTS = {
     regexFilter: false,
     tunEnabled: false,
     lanEnabled: false,
+    dnsListen: "0.0.0.0:53",
     countryThreshold: 0,
     panelPort: 9999,
     panelSecret: "",
@@ -32,6 +33,11 @@ function parseString(value: unknown, defaultValue = ""): string {
 
 function parseTrimmedString(value: unknown, defaultValue = ""): string {
     return parseString(value, defaultValue).trim();
+}
+
+function parseNonEmptyTrimmedString(value: unknown, defaultValue: string): string {
+    const parsed = parseTrimmedString(value, defaultValue);
+    return parsed || defaultValue;
 }
 
 /**
@@ -57,6 +63,10 @@ export function buildFeatureFlags(args: ScriptArgs): FeatureFlags {
         regexFilter: parseBool(args.regex, FEATURE_FLAG_DEFAULTS.regexFilter),
         tunEnabled: parseBool(args.tun, FEATURE_FLAG_DEFAULTS.tunEnabled),
         lanEnabled: parseBool(args.lan, FEATURE_FLAG_DEFAULTS.lanEnabled),
+        dnsListen: parseNonEmptyTrimmedString(
+            args.dnslisten ?? args.dns_listen,
+            FEATURE_FLAG_DEFAULTS.dnsListen
+        ),
         countryThreshold: parseNumber(args.threshold, FEATURE_FLAG_DEFAULTS.countryThreshold),
         panelPort: parsePort(args.panelport, FEATURE_FLAG_DEFAULTS.panelPort),
         panelSecret: parseString(args.panelsecret, FEATURE_FLAG_DEFAULTS.panelSecret),

@@ -10,6 +10,7 @@ https://github.com/Alex-WU-Gen-9-png/override-rules
 - ipv6interface/ipv6_interface: IPv6 Only 节点绑定的出站网卡（默认空）
 - tun: 启用 TUN 模式（默认 false）
 - lan: 启用局域网代理支持（默认 false；透明代理需配合 tun=true）
+- dnslisten/dns_listen: lan=true 时的 DNS 监听地址（默认 0.0.0.0:53）
 - full: 输出完整配置（适合纯内核启动，默认 false）
 - keepalive: 启用 tcp-keep-alive（默认 false）
 - fakeip: DNS 使用 FakeIP 模式（默认 true；传 false 时为 RedirHost）
@@ -74,6 +75,7 @@ const {
     regexFilter,
     tunEnabled,
     lanEnabled,
+    dnsListen,
     countryThreshold,
     panelPort,
     panelSecret,
@@ -165,7 +167,7 @@ function main(config: ClashConfig): ClashConfig {
         "rule-providers": ruleProviders,
         rules: finalRules,
         sniffer: snifferConfig,
-        dns: buildDns({ fakeIPEnabled, ipv6Enabled, lanEnabled }),
+        dns: buildDns({ fakeIPEnabled, ipv6Enabled, lanEnabled, dnsListen }),
         tun: buildTunConfig({ tunEnabled, lanEnabled, routeExcludeAddress }),
         "geodata-mode": true,
         "geox-url": geoxURL,
