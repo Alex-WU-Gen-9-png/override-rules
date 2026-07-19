@@ -1,6 +1,17 @@
 # Changelog
 
+## [3.1.1](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.1.0...src-v3.1.1) (2026-07-19)
+
+
+### Bug Fixes
+
+- 修复国内 DNS 与 fake-ip 透明代理 ([52a493a](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/52a493a449a8e34cdd031dc01be68e513cb00c80))
 ## [3.1.0](https://github.com/Alex-WU-Gen-9-png/override-rules/compare/src-v3.0.5...src-v3.1.0) (2026-07-16)
+
+
+### Chores
+
+- 发布版本 3.1.0 ([00d48ee](https://github.com/Alex-WU-Gen-9-png/override-rules/commit/00d48eed01f58da0351cd6065e3c1589eb9c8526))
 
 
 ### Documentation
