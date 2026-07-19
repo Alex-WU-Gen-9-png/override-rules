@@ -1,6 +1,6 @@
 import type { DnsConfig, SnifferConfig } from "./types";
 
-const SYSTEM_DNS_SERVER = "system";
+const INTERNAL_DNS_SERVERS = ["10.10.0.21", "10.10.2.21"] as const;
 const WECHAT_QQ_DNS_POLICY_RULE_SETS = ["rule-set:Tencent", "rule-set:WeChat"];
 
 const LOCAL_DOMAIN_FAKE_IP_FILTER = [
@@ -47,6 +47,7 @@ const NTP_FAKE_IP_FILTER = [
  * 这些域名不会被 fake-ip 机制代理。
  */
 const BASE_FAKE_IP_FILTER = [
+    "geosite:cn",
     "geosite:private",
     "geosite:connectivity-check",
     ...LOCAL_DOMAIN_FAKE_IP_FILTER,
@@ -113,15 +114,18 @@ function buildDnsConfig({
         "prefer-h3": false,
         "respect-rules": true,
         "enhanced-mode": mode,
-        "proxy-server-nameserver": [SYSTEM_DNS_SERVER],
-        "default-nameserver": [SYSTEM_DNS_SERVER],
+        "proxy-server-nameserver": [...INTERNAL_DNS_SERVERS],
+        "default-nameserver": [...INTERNAL_DNS_SERVERS],
         nameserver: ["tcp://1.1.1.1:53", "tcp://8.8.8.8:53"],
         fallback: ["tcp://1.0.0.1:53", "tcp://8.8.4.4:53", "tls://1.1.1.1:853"],
         "nameserver-policy": {
-            "+.zju.edu.cn": SYSTEM_DNS_SERVER,
-            "geosite:cn": SYSTEM_DNS_SERVER,
+            "+.zju.edu.cn": [...INTERNAL_DNS_SERVERS],
+            "geosite:cn": [...INTERNAL_DNS_SERVERS],
             ...Object.fromEntries(
-                WECHAT_QQ_DNS_POLICY_RULE_SETS.map((ruleSet) => [ruleSet, SYSTEM_DNS_SERVER])
+                WECHAT_QQ_DNS_POLICY_RULE_SETS.map((ruleSet) => [
+                    ruleSet,
+                    [...INTERNAL_DNS_SERVERS],
+                ])
             ),
         },
     };

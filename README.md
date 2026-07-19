@@ -154,13 +154,13 @@ IPv6 Only 节点会根据节点名称、IPv6 字面量地址，以及带有 `v6`
 
 `lan=true` 会写入 `dns.listen`，默认值是 `0.0.0.0:53`。如果运行环境已有 `systemd-resolved`、dnsmasq、AdGuard Home 或其他 DNS 服务占用 53 端口，可以用 `dnslisten=192.168.50.42:53` 指定具体局域网地址，避免监听所有 IPv4 地址导致端口冲突。
 
-当同时启用 `tun=true` 时，会额外写入 `auto-redirect: true`，并保留 `10.0.0.0/8` 进入 TUN 分流以兼容 ZJU 等内网访问。
+当同时启用 `tun=true` 时，会额外写入 `auto-redirect: true`，并保留 `10.0.0.0/8` 进入 TUN 分流以兼容 ZJU 等内网访问。不会再排除整个 `fd00::/8`，以确保 `fd88:413:626:821::/64` fake-v6 地址能够进入 TUN；仅保留 Tailscale 使用的 `fd7a:115c:a1e0::/48` 例外。
 
 ## DNS 策略
 
-默认本地解析使用 Mihomo 的 `system` DNS，由运行环境的系统 DNS 负责解析。`geosite:cn` 会在全局 `nameserver-policy` 中指定到 `system`。
+默认 DNS 使用内网 DNS `10.10.0.21`，并以 `10.10.2.21` 作为备用地址。`geosite:cn`、ZJU、腾讯和微信相关域名会在 `nameserver-policy` 中使用这组 DNS，不再依赖运行环境的 `system` DNS。`geosite:cn` 同时加入 `fake-ip-filter`，国内域名保留真实地址，便于命中国内规则并进入直连优先的「国内应用」策略组。
 
-微信、QQ 与腾讯相关域名复用上游 `Tencent` 和 `WeChat` 规则集，并在 `nameserver-policy` 中指定到 `system` DNS。
+微信、QQ 与腾讯相关域名复用上游 `Tencent` 和 `WeChat` 规则集，并在 `nameserver-policy` 中指定到这组内网 DNS。
 
 ## GeoX 资源
 
