@@ -180,7 +180,6 @@ export interface ClashConfig {
     "mixed-port"?: number;
     "redir-port"?: number;
     "tproxy-port"?: number;
-    "routing-mark"?: number;
     "allow-lan"?: boolean;
     "bind-address"?: string;
     ipv6?: boolean;

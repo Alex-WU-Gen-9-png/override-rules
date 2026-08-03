@@ -144,7 +144,6 @@ function main(config: ClashConfig): ClashConfig {
             "mixed-port": 7890,
             "redir-port": 7892,
             "tproxy-port": 7893,
-            "routing-mark": 7894,
             "allow-lan": true,
             "bind-address": "*",
             ipv6: ipv6Enabled,
