@@ -1,6 +1,9 @@
 export interface ScriptArgs {
+    type?: string;
+    profile?: string;
     loadbalance?: string;
     countryselect?: string;
+    fallback?: string;
     landing?: string;
     ipv6?: string;
     ipv6interface?: string;
@@ -16,13 +19,25 @@ export interface ScriptArgs {
     lan?: string;
     dnslisten?: string;
     dns_listen?: string;
+    inboundlan?: string;
+    inbound_lan?: string;
+    inboundbind?: string;
+    inbound_bind?: string;
+    inboundauth?: string;
+    inbound_auth?: string;
+    panelbind?: string;
+    panel_bind?: string;
     panelport?: string;
     panelsecret?: string;
 }
 
+export type RoutingType = "blacklist" | "whitelist";
+
 export interface FeatureFlags {
+    routingType: RoutingType;
     loadBalance: boolean;
     countrySelect: boolean;
+    fallbackEnabled: boolean;
     landing: boolean;
     ipv6Enabled: boolean;
     ipv6InterfaceName: string;
@@ -36,6 +51,10 @@ export interface FeatureFlags {
     tunEnabled: boolean;
     lanEnabled: boolean;
     dnsListen: string;
+    inboundLanEnabled: boolean;
+    inboundBindAddress: string;
+    inboundAuth: string[];
+    panelBindAddress: string;
     panelPort: number;
     panelSecret: string;
 }
@@ -182,6 +201,7 @@ export interface ClashConfig {
     "tproxy-port"?: number;
     "allow-lan"?: boolean;
     "bind-address"?: string;
+    authentication?: string[];
     ipv6?: boolean;
     mode?: "rule" | "global" | "direct";
     "unified-delay"?: boolean;
@@ -227,6 +247,7 @@ export interface BuildBaseListsInput {
     countryGroupNames: string[];
     nonLandingNodes: string[];
     regexFilter: boolean;
+    fallbackEnabled: boolean;
 }
 
 export interface BuildCountryProxyGroupsInput {
@@ -234,6 +255,7 @@ export interface BuildCountryProxyGroupsInput {
     landing: boolean;
     loadBalance: boolean;
     countrySelect: boolean;
+    fallbackEnabled: boolean;
     regexFilter: boolean;
     countryInfo: CountryInfoItem[];
 }
@@ -241,6 +263,7 @@ export interface BuildCountryProxyGroupsInput {
 export interface BuildProxyGroupsInput {
     landing: boolean;
     regexFilter: boolean;
+    fallbackEnabled: boolean;
     countryProxyGroups: ProxyGroup[];
     lowCostNodes: string[];
     landingNodes: string[];

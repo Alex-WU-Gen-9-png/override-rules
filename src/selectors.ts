@@ -18,12 +18,13 @@ export function buildBaseLists({
     countryGroupNames,
     nonLandingNodes,
     regexFilter,
+    fallbackEnabled,
 }: BuildBaseListsInput): BaseLists {
     const lowCost = lowCostNodes.length > 0 || regexFilter;
 
     const defaultSelector = buildList(
         PROXY_GROUPS.AUTO,
-        PROXY_GROUPS.FALLBACK,
+        !fallbackEnabled && PROXY_GROUPS.FALLBACK,
         landing && PROXY_GROUPS.LANDING,
         countryGroupNames,
         lowCost && PROXY_GROUPS.LOW_COST,

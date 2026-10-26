@@ -46,6 +46,18 @@ https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#full
 
 # 启用完整配置、TUN 和局域网透明代理辅助配置，并指定局域网 DNS 监听地址
 https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#full=true&tun=true&lan=true&dnslisten=192.168.50.42:53
+
+# 指定 HTTP/SOCKS 入站认证
+https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#full=true&inboundauth=proxy%3Ayour-password
+
+# 黑名单模式：仅代理 AI、受限域名、CDN 和地区媒体规则
+https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#type=blacklist
+
+# 恢复完整分类分流
+https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#type=whitelist
+
+# 使用 Clash Verge 风格动态分组；节点从输入订阅实时获取
+https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#profile=clash-verge
 ```
 
 ## 客户端说明
@@ -74,8 +86,11 @@ https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#land
 
 | 参数 | 默认值 | 说明 |
 | :--- | :--- | :--- |
+| `profile` | 空 | 传 `clash-verge` 时使用当前配置的动态策略组/规则布局，按输入节点名实时构建。 |
+| `type` | `blacklist` | `blacklist` 仅代理 AI、`GEOSITE,gfw`、CDN 和地区媒体规则，其他流量 `DIRECT`；`whitelist` 恢复完整分类分流。 |
 | `loadbalance` | `false` | 国家/地区节点使用 `load-balance`。优先级高于 `countryselect`。 |
 | `countryselect` | `true` | 国家/地区节点使用手动选择；当 `loadbalance=false&countryselect=false` 时改用 `url-test`。 |
+| `fallback` | `false` | 将国家/地区节点组改为 `fallback`，并移除全局「故障转移」组；`loadbalance=true` 时仍优先使用 `load-balance`。 |
 | `landing` | `false` | 启用落地节点和前置代理组，用于链式代理场景。 |
 | `ipv6` | `false` | 启用 IPv6，并让 DNS 配置允许 IPv6。 |
 | `ipv6interface` / `ipv6_interface` | 空 | 为识别出的 IPv6 Only 节点写入 `interface-name`。 |
@@ -83,12 +98,16 @@ https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#land
 | `keepalive` | `false` | 启用 TCP keep-alive。移动设备无明确需求时不建议开启。 |
 | `fakeip` | `true` | DNS 增强模式使用 `fake-ip`；显式传 `false` 时使用 `redir-host`。 |
 | `quic` | `false` | 允许 UDP 443/QUIC 流量按规则分流；默认会拦截 QUIC。 |
-| `webrtc` | `false` | 允许 WebRTC/STUN 按普通规则分流；默认降低公网 IP 泄漏风险。 |
+| `webrtc` | `false` | whitelist 模式允许 WebRTC/STUN 按普通规则分流；blacklist 模式不额外代理这些 UDP。 |
 | `regex` | `false` | 国家/地区代理组使用 `include-all` + `filter`，由 Mihomo 运行时筛选节点。 |
 | `tun` | `false` | 启用 TUN 模式，自动配置路由、DNS 劫持和接口探测。 |
 | `lan` | `false` | 启用局域网透明代理辅助配置；与 `tun=true` 搭配时会启用 `auto-redirect`。 |
 | `dnslisten` / `dns_listen` | `0.0.0.0:53` | `lan=true` 时写入 `dns.listen`；可指定为局域网地址，例如 `192.168.50.42:53`，避免 `0.0.0.0:53` 与系统 DNS 服务端口冲突。 |
+| `inboundlan` / `inbound_lan` | `true` | 写入 `allow-lan`，控制 HTTP/SOCKS 等入站是否允许局域网访问；透明代理场景默认保持开启。 |
+| `inboundbind` / `inbound_bind` | 自动 | 写入 `bind-address`；默认复用 `dnslisten` 的监听地址，若 `dnslisten` 为 `0.0.0.0`、`::` 或 `*` 则回退到 `127.0.0.1`，避免 HTTP/SOCKS 代理暴露到公网网卡。 |
+| `inboundauth` / `inbound_auth` | 空 | 写入 HTTP/SOCKS 入站认证，格式为 `用户名:密码`；多个账号用英文逗号分隔，特殊字符请先 URL Encode。 |
 | `threshold` | `0` | 国家/地区节点数小于该值时不显示对应地区组。 |
+| `panelbind` / `panel_bind` | `127.0.0.1` | MetaXD 面板控制监听地址，仅在 `full=true` 时生效。 |
 | `panelport` | `9999` | MetaXD 面板控制端口，仅在 `full=true` 时生效。 |
 | `panelsecret` | 空 | MetaXD 面板访问密码，仅在 `full=true` 时生效；特殊字符请先 URL Encode。 |
 
@@ -100,10 +119,10 @@ https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#land
 
 | 策略组 | 默认候选 | 用途 |
 | :--- | :--- | :--- |
-| `选择代理` | 自动选择、故障转移、地区节点、低倍率节点、手动选择、`DIRECT` | 通用代理入口。 |
+| `选择代理` | 自动选择、地区节点、低倍率节点、手动选择、`DIRECT` | 通用代理入口；未启用 `fallback=true` 时还包含全局「故障转移」组。 |
 | `手动选择` | 全部节点 | 手动选择任意节点。 |
 | `自动选择` | 默认代理候选 | `url-test` 自动测速。 |
-| `故障转移` | 默认代理候选 | `fallback` 可用性兜底。 |
+| `故障转移` | 默认代理候选 | `fallback=false` 时生成的全局可用性兜底组；启用 `fallback=true` 后由各地区节点组分别承担。 |
 | `低倍率节点` | 低倍率匹配节点 | 匹配 `0.x`、低倍率、省流、实验性等节点；仅有匹配节点或 `regex=true` 时生成。 |
 | `前置代理` | 非落地节点 | `landing=true` 时生成，作为链式代理前置出口。 |
 | `落地节点` | 落地节点 | `landing=true` 时生成，匹配家宽、商宽、星链、落地等节点。 |
@@ -122,6 +141,12 @@ https://cdn.jsdelivr.net/gh/Alex-WU-Gen-9-png/override-rules/convert.min.js#land
 | `ZJU` | `DIRECT` 优先 | ZJU 域名、校园服务和 IP 认证学术资源。 |
 
 私网、LAN、路由器、本地发现、连接检测、ZJU 校内 IP 段等硬直连规则直接写入 Mihomo 内置 `DIRECT`，不会再生成可见的「直连」策略组。
+
+### 未分类域名的国内 IP 兜底
+
+前置国内规则保留 `no-resolve`，先处理已知的国内域名和目标 IP。对尚未命中 AI、媒体、CDN、广告拦截、`GEOSITE,gfw` 等显式规则的域名，脚本会在最终 `MATCH` 前再执行一条允许 DNS 解析的 `GEOIP,cn`。这样即使域名尚未被国内域名库收录，或 HTTP 嗅探/FakeIP 导致分流时没有真实目标 IP，也能在解析为国内 IP 后进入国内策略。
+
+`whitelist` 模式的这条兜底指向「国内应用」（默认 `DIRECT`），`blacklist` 模式直接指向 `DIRECT`。原有 HTTP 嗅探、策略组及显式分类顺序保持不变。若 DNS 解析失败或目标 IP 未被 GeoIP 数据库识别为 CN，则继续使用原来的最终 `MATCH`；被显式代理规则命中的域名仍按其分类处理。
 
 ## 链式代理
 
@@ -152,13 +177,26 @@ IPv6 Only 节点会根据节点名称、IPv6 字面量地址，以及带有 `v6`
 
 只有 IPv6 字面量地址会以 `/128` 合并进 TUN 的 `route-exclude-address`。DDNS 域名不会写入该列表，避免被 Mihomo 当作 CIDR 解析失败。
 
-`lan=true` 会写入 `dns.listen`，默认值是 `0.0.0.0:53`。如果运行环境已有 `systemd-resolved`、dnsmasq、AdGuard Home 或其他 DNS 服务占用 53 端口，可以用 `dnslisten=192.168.50.42:53` 指定具体局域网地址，避免监听所有 IPv4 地址导致端口冲突。
+`full=true` 会保留 `allow-lan: true`，以免影响路由器透明代理入站；但 HTTP/SOCKS 的 `bind-address` 默认不再使用 `*`。如果传入 `dnslisten=192.168.50.42:53`，脚本会默认把 `bind-address` 推导为 `192.168.50.42`；如果 `dnslisten` 仍是 `0.0.0.0:53` 这类泛监听地址，则回退为 `127.0.0.1`。
+
+`lan=true` 会写入 `dns.listen`，默认值是 `0.0.0.0:53`。如果运行环境已有 `systemd-resolved`、dnsmasq、AdGuard Home 或其他 DNS 服务占用 53 端口，可以用 `dnslisten=192.168.50.42:53` 指定具体局域网地址，避免监听所有 IPv4 地址导致端口冲突，同时也让 HTTP/SOCKS 入站默认绑定到同一个内网地址。
+
+如果使用 Clash Verge 系客户端，建议把本机专属的入站认证和监听地址放在本地覆写中：
+
+```yaml
+allow-lan: true
+bind-address: 192.168.50.42
+authentication:
+  - "proxy:your-password"
+external-controller: 127.0.0.1:9999
+secret: your-panel-secret
+```
 
 当同时启用 `tun=true` 时，会额外写入 `auto-redirect: true`，并保留 `10.0.0.0/8` 进入 TUN 分流以兼容 ZJU 等内网访问。不会再排除整个 `fd00::/8`，以确保 `fd88:413:626:821::/64` fake-v6 地址能够进入 TUN；仅保留 Tailscale 使用的 `fd7a:115c:a1e0::/48` 例外。
 
 ## DNS 策略
 
-默认 DNS 使用内网 DNS `10.10.0.21`，并以 `10.10.2.21` 作为备用地址。`geosite:cn`、ZJU、腾讯和微信相关域名会在 `nameserver-policy` 中使用这组 DNS，不再依赖运行环境的 `system` DNS。`geosite:cn` 同时加入 `fake-ip-filter`，国内域名保留真实地址，便于命中国内规则并进入直连优先的「国内应用」策略组。
+默认 DNS 使用内网 DNS `10.10.0.21`，并以 `10.10.2.21` 作为备用地址。`geosite:cn`、ZJU、腾讯和微信相关域名会在 `nameserver-policy` 中使用这组 DNS，不再依赖运行环境的 `system` DNS。`geosite:cn` 与 `rule-set:ZJU` 同时加入 `fake-ip-filter`，国内和 ZJU 相关域名保留真实地址，便于命中对应规则并避免校园网、学术资源和 IP 认证场景被 FakeIP 影响。
 
 微信、QQ 与腾讯相关域名复用上游 `Tencent` 和 `WeChat` 规则集，并在 `nameserver-policy` 中指定到这组内网 DNS。
 
@@ -233,6 +271,14 @@ npm run artifacts
 ```
 
 修改核心逻辑时请优先编辑 `src/` 和 `scripts/yaml_generator/` 下的 TypeScript 源码。不要直接修改生成产物。
+
+国内 IP 兜底的内核回归使用本机 Mihomo 可执行文件：
+
+```bash
+MIHOMO_BIN=/absolute/path/to/mihomo npm run test:routing
+```
+
+测试使用完整规则顺序、本地 DNS/HTTP 和自造 Geo 数据，验证 HTTP 嗅探后的国内 IP 兜底、国外兜底、显式业务分类以及 SIGHUP 重载；不启用 TUN，不改系统代理或路由，也不访问公网测试目标。未指定 `MIHOMO_BIN` 时会明确标为跳过，不代表内核回归通过。
 
 ## 自定义与贡献
 

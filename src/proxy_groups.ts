@@ -25,7 +25,8 @@ const PROXY_TEST_URL = "http://cp.cloudflare.com/generate_204";
  * @param input.countries - 需要生成代理组的地区名称列表（不含后缀）
  * @param input.landing - 是否启用落地节点模式；启用时将排除落地节点
  * @param input.loadBalance - 是否使用负载均衡模式（`load-balance`），优先级高于手动选择
- * @param input.countrySelect - 是否使用手动选择模式（`select`），未启用负载均衡时生效
+ * @param input.countrySelect - 是否使用手动选择模式（`select`），未启用负载均衡或故障转移时生效
+ * @param input.fallbackEnabled - 是否将地区节点组生成为 `fallback`
  * @param input.regexFilter - 是否使用正则过滤模式（`include-all` + `filter`）
  * @param input.countryInfo - 地区节点信息数组，用于非正则模式下直接枚举节点名称
  * @returns 生成的地区代理组配置数组
@@ -35,6 +36,7 @@ export function buildCountryProxyGroups({
     landing,
     loadBalance,
     countrySelect,
+    fallbackEnabled,
     regexFilter,
     countryInfo,
 }: BuildCountryProxyGroupsInput): ProxyGroup[] {
@@ -77,6 +79,31 @@ export function buildCountryProxyGroups({
                     ...testFields,
                     type: "load-balance",
                     strategy: "sticky-sessions",
+                    "include-all": true,
+                    filter: meta.pattern,
+                    ...(landing ? { "exclude-filter": LANDING_NODE_MATCHER.pattern } : {}),
+                };
+            }
+        } else if (fallbackEnabled) {
+            const testFields = {
+                url: PROXY_TEST_URL,
+                interval: 60,
+                tolerance: 20,
+            };
+
+            if (!regexFilter) {
+                const nodeNames = nodesByCountry?.[country] ?? [];
+                groupConfig = {
+                    ...baseFields,
+                    ...testFields,
+                    type: "fallback",
+                    proxies: nodeNames,
+                };
+            } else {
+                groupConfig = {
+                    ...baseFields,
+                    ...testFields,
+                    type: "fallback",
                     "include-all": true,
                     filter: meta.pattern,
                     ...(landing ? { "exclude-filter": LANDING_NODE_MATCHER.pattern } : {}),
@@ -135,6 +162,7 @@ export function buildCountryProxyGroups({
 export function buildProxyGroups({
     landing,
     regexFilter,
+    fallbackEnabled,
     countryProxyGroups,
     lowCostNodes,
     landingNodes,
@@ -312,15 +340,17 @@ export function buildProxyGroups({
             interval: 60,
             tolerance: 20,
         },
-        {
-            name: PROXY_GROUPS.FALLBACK,
-            icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Available_1.png`,
-            type: "fallback",
-            url: PROXY_TEST_URL,
-            proxies: defaultFallback,
-            interval: 60,
-            tolerance: 20,
-        },
+        !fallbackEnabled
+            ? {
+                  name: PROXY_GROUPS.FALLBACK,
+                  icon: `${CDN_URL}/gh/Koolson/Qure@master/IconSet/Color/Available_1.png`,
+                  type: "fallback",
+                  url: PROXY_TEST_URL,
+                  proxies: defaultFallback,
+                  interval: 60,
+                  tolerance: 20,
+              }
+            : null,
         hasLowCost
             ? {
                   name: PROXY_GROUPS.LOW_COST,

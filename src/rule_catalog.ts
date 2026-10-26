@@ -251,7 +251,7 @@ export const ruleCatalog: RuleCatalogItem[] = [
     blackmatrixItem("NetEaseMusic", "NetEaseMusic", PROXY_GROUPS.DOMESTIC_SERVICES, "domestic"),
     catalogItem(
         "GoogleFCM",
-        selfClassical("GoogleFCM"),
+        selfClassical("FirebaseCloudMessaging"),
         PROXY_GROUPS.DOMESTIC_SERVICES,
         "domestic"
     ),

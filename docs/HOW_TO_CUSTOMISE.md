@@ -21,6 +21,7 @@ npm install
 ```typescript
 // src/args.ts
 const FEATURE_FLAG_DEFAULTS = {
+    routingType: "blacklist", // 也可通过 type=whitelist 恢复完整分类分流
     loadBalance: false,
     countrySelect: true,
     landing: false,
@@ -35,6 +36,10 @@ const FEATURE_FLAG_DEFAULTS = {
     tunEnabled: false,
     lanEnabled: false,
     dnsListen: "0.0.0.0:53",
+    inboundLanEnabled: true,
+    inboundBindAddress: "127.0.0.1",
+    inboundAuth: [],
+    panelBindAddress: "127.0.0.1",
     countryThreshold: 0,
     panelPort: 9999,
     panelSecret: "",

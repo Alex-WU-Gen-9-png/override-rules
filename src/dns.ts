@@ -1,6 +1,7 @@
 import type { DnsConfig, SnifferConfig } from "./types";
 
 const INTERNAL_DNS_SERVERS = ["10.10.0.21", "10.10.2.21"] as const;
+const ZJU_DNS_POLICY_RULE_SETS = ["rule-set:ZJU"];
 const WECHAT_QQ_DNS_POLICY_RULE_SETS = ["rule-set:Tencent", "rule-set:WeChat"];
 
 const LOCAL_DOMAIN_FAKE_IP_FILTER = [
@@ -50,6 +51,7 @@ const BASE_FAKE_IP_FILTER = [
     "geosite:cn",
     "geosite:private",
     "geosite:connectivity-check",
+    ...ZJU_DNS_POLICY_RULE_SETS,
     ...LOCAL_DOMAIN_FAKE_IP_FILTER,
     ...NTP_FAKE_IP_FILTER,
     "Mijia Cloud",
@@ -122,7 +124,7 @@ function buildDnsConfig({
             "+.zju.edu.cn": [...INTERNAL_DNS_SERVERS],
             "geosite:cn": [...INTERNAL_DNS_SERVERS],
             ...Object.fromEntries(
-                WECHAT_QQ_DNS_POLICY_RULE_SETS.map((ruleSet) => [
+                [...ZJU_DNS_POLICY_RULE_SETS, ...WECHAT_QQ_DNS_POLICY_RULE_SETS].map((ruleSet) => [
                     ruleSet,
                     [...INTERNAL_DNS_SERVERS],
                 ])
